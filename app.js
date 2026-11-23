@@ -179,42 +179,102 @@ const chapters = [
   }
 ];
 
-const today = new Date();
-const localDate = new Date(today.getTime() - today.getTimezoneOffset()*60000).toISOString().slice(0,10);
-const list = document.getElementById('chapters');
-const panel = document.getElementById('reading-panel');
-const listSection = document.querySelector('.today-section');
-const progressLabel = document.getElementById('progress-label');
-const progressFill = document.getElementById('progress-fill');
+const parts = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit'
+}).formatToParts(new Date());
+const ukDate = `${parts.find(p=>p.type==='year').value}-${parts.find(p=>p.type==='month').value}-${parts.find(p=>p.type==='day').value}`;
+const previewMode = new URLSearchParams(location.search).get('preview') === '1';
+const isUnlocked = c => previewMode || ukDate >= c.date;
 
-function renderList(){
-  const unlocked = chapters.filter(c => localDate >= c.date).length;
-  progressLabel.textContent = `${unlocked} / 4 sprístupnené`;
-  progressFill.style.width = `${unlocked/4*100}%`;
-  list.innerHTML = chapters.map(c => {
-    const open = localDate >= c.date;
-    return `<div class="chapter-card ${open?'available':'locked'}" ${open?`role="button" tabindex="0" data-id="${c.id}"`:''}>
-      <div class="chapter-number">${c.number}</div><div><div class="chapter-date">${c.dateLabel}</div><h3>${open?c.title:'Ďalšia kapitola'}</h3><div class="chapter-sub">${open?c.subtitle:'Príbeh sa odhalí v deň, keď vyrazíš.'}</div></div>
-      <div class="chapter-status">${open?'ČÍTAŤ →':'🔒 ČOSKORO'}</div>
-    </div>`;
-  }).join('');
-  list.querySelectorAll('.available').forEach(el=>{
-    el.addEventListener('click',()=>openChapter(el.dataset.id));
-    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openChapter(el.dataset.id)}});
+const welcomeView = document.getElementById('welcome-view');
+const daysView = document.getElementById('days-view');
+const chaptersView = document.getElementById('chapters-view');
+const panel = document.getElementById('reading-panel');
+const daysList = document.getElementById('days-list');
+const dayChapters = document.getElementById('day-chapters');
+let currentDate = null;
+
+function groupDays() {
+  const groups = new Map();
+  chapters.forEach(c => {
+    if (!groups.has(c.date)) groups.set(c.date, []);
+    groups.get(c.date).push(c);
   });
+  return [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
 }
-function openChapter(id){
-  const c=chapters.find(x=>x.id===id); if(!c || localDate<c.date) return;
-  document.getElementById('reading-day').textContent=c.dateLabel;
-  document.getElementById('reading-title').textContent=c.title;
-  document.getElementById('reading-deck').textContent=c.deck;
-  const words=(c.body.replace(/<[^>]*>/g,' ').match(/\S+/g)||[]).length;
-  document.getElementById('reading-time').textContent=`${Math.max(3,Math.ceil(words/190))} MIN ČÍTANIA`;
-  document.getElementById('reading-visual').innerHTML=(c.visuals||[]).map(v=>`<figure class="article-figure"><img src="${v.src}" alt="${v.alt}" loading="lazy"><figcaption><span>${v.caption}</span><a href="${v.href}" target="_blank" rel="noopener">${v.credit} · zdroj a licencia</a></figcaption></figure>`).join('');
-  document.getElementById('reading-body').innerHTML=c.body;
-  document.getElementById('reading-curiosity').textContent=c.curiosity;
-  listSection.hidden=true; panel.hidden=false; window.scrollTo({top:0,behavior:'smooth'});
+function showDays() {
+  welcomeView.hidden = true;
+  chaptersView.hidden = true;
+  panel.hidden = true;
+  daysView.hidden = false;
+  const available = groupDays().filter(([,items]) => items.some(isUnlocked));
+  if (!available.length) {
+    const next = groupDays().find(([,items]) => !items.some(isUnlocked));
+    const dateText = next ? next[1][0].dateLabel.replace(/^[^·]+·\\s*/, '') : '';
+    daysList.innerHTML = `<p class="empty-note">Ďalší deň sa otvorí ${dateText}.</p>`;
+    return;
+  }
+  daysList.innerHTML = available.map(([date,items],i) => {
+    const c = items[0];
+    return `<button class="day-row" type="button" data-date="${date}">
+      <span class="day-index">${String(i+1).padStart(2,'0')}</span>
+      <span class="day-name">${c.dateLabel}</span>
+      <span class="day-arrow" aria-hidden="true">→</span>
+    </button>`;
+  }).join('');
+  daysList.querySelectorAll('.day-row').forEach(el =>
+    el.addEventListener('click',()=>showDay(el.dataset.date))
+  );
 }
-document.getElementById('back-button').addEventListener('click',()=>{panel.hidden=true;listSection.hidden=false;listSection.scrollIntoView({behavior:'smooth'})});
-renderList();
-if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+function showDay(date) {
+  currentDate = date;
+  const items = chapters.filter(c=>c.date===date && isUnlocked(c));
+  if (!items.length) return;
+  daysView.hidden = true;
+  panel.hidden = true;
+  chaptersView.hidden = false;
+  document.getElementById('day-heading').textContent = items[0].dateLabel;
+  dayChapters.innerHTML = items.map(c => `
+    <button class="chapter-row" type="button" data-id="${c.id}">
+      <span class="chapter-index">${c.number}</span>
+      <span class="chapter-name">${c.title}</span>
+      <span class="chapter-arrow" aria-hidden="true">→</span>
+    </button>`).join('');
+  dayChapters.querySelectorAll('.chapter-row').forEach(el =>
+    el.addEventListener('click',()=>openChapter(el.dataset.id))
+  );
+}
+function openChapter(id) {
+  const c = chapters.find(x=>x.id===id);
+  if (!c || !isUnlocked(c)) return;
+  document.getElementById('reading-day').textContent = c.dateLabel;
+  document.getElementById('reading-title').textContent = c.title;
+  document.getElementById('reading-deck').textContent = c.deck;
+  const words = (c.body.replace(/<[^>]*>/g,' ').match(/\\S+/g)||[]).length;
+  document.getElementById('reading-time').textContent = `${Math.max(3,Math.ceil(words/190))} MIN ČÍTANIA`;
+  document.getElementById('reading-visual').innerHTML = (c.visuals||[]).map(v=>
+    `<figure class="article-figure"><img src="${v.src}" alt="${v.alt}" loading="lazy"><figcaption><span>${v.caption}</span><a href="${v.href}" target="_blank" rel="noopener">${v.credit} · zdroj a licencia</a></figcaption></figure>`
+  ).join('');
+  document.getElementById('reading-body').innerHTML = c.body;
+  document.getElementById('reading-curiosity').textContent = c.curiosity;
+  welcomeView.hidden = true;
+  daysView.hidden = true;
+  chaptersView.hidden = true;
+  panel.hidden = false;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('continue-button').addEventListener('click',showDays);
+document.getElementById('days-back').addEventListener('click',showDays);
+document.getElementById('chapters-back').addEventListener('click',()=>{
+  chaptersView.hidden = true;
+  daysView.hidden = false;
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('back-button').addEventListener('click',()=>{
+  panel.hidden = true;
+  showDay(currentDate);
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
