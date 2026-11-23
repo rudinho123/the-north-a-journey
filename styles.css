@@ -6,6 +6,8 @@ body{min-height:100vh;margin:0;background:var(--paper);color:var(--ink);font-fam
 button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
 .app-shell{width:min(940px,100%);min-height:100svh;margin:0 auto;padding:28px clamp(24px,6vw,76px) 84px}
 .welcome-view{min-height:calc(100svh - 104px);display:grid;place-items:center}
+.welcome-content{width:min(100%,430px);display:flex;flex-direction:column;align-items:flex-start;gap:30px}
+.welcome-description{max-width:390px;margin:0;color:var(--muted);font:italic clamp(17px,2.2vw,20px)/1.65 var(--serif)}
 .continue-button{display:inline-flex;align-items:center;gap:25px;padding:15px 0 13px;border:0;border-bottom:1px solid var(--ink);background:transparent;color:var(--ink);font:500 clamp(30px,5vw,38px)/1.2 var(--serif);cursor:pointer;transition:color .2s ease,border-color .2s ease}
 .continue-button span{display:inline-block;font:400 25px/1 var(--sans);transition:transform .22s ease}
 .continue-button:hover{color:var(--accent);border-color:var(--accent)}.continue-button:hover span{transform:translateX(6px)}
