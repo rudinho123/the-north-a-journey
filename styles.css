@@ -50,7 +50,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 .closing-note p{margin:0;font:italic 17px/1.65 var(--serif)}
 .view-enter{animation:viewEnter .48s cubic-bezier(.2,.7,.25,1) both}
 @keyframes viewEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@media(min-width:900px){.app-shell{padding-top:42px}.welcome-view{min-height:calc(100svh - 118px)}.navigation-view{padding-top:38px}.reading-panel{padding-top:36px}.reading-panel article{padding-top:56px}.article-body{font-size:18.5px;line-height:1.98}}
+@media(min-width:900px){.app-shell{padding-top:42px}.welcome-view{min-height:calc(100svh - 118px)}.navigation-view{padding-top:38px}.reading-panel{padding-top:36px}.reading-panel article{padding-top:56px}.article-body{max-width:840px;font-size:18px;line-height:1.9}.article-figure{width:36%;max-width:320px;margin-top:.4em;margin-bottom:1.1em}.article-figure.figure--right{margin-left:1.55em}.article-figure.figure--left{margin-right:1.55em}.article-figure img{aspect-ratio:4/3}.article-figure figcaption{padding-top:8px}}
 @media(max-width:760px){
   .article-figure{width:46%;max-width:260px;margin-top:.35em;margin-bottom:1em}
   .article-figure.figure--right{margin-left:1.05em}
