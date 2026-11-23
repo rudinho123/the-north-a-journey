@@ -202,6 +202,14 @@ function groupDays() {
   });
   return [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
 }
+function showWelcome() {
+  daysView.hidden = true;
+  chaptersView.hidden = true;
+  panel.hidden = true;
+  welcomeView.hidden = false;
+  animateView(welcomeView);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function showDays() {
   welcomeView.hidden = true;
   chaptersView.hidden = true;
@@ -341,7 +349,7 @@ function openChapter(id) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.getElementById('continue-button').addEventListener('click',showDays);
-document.getElementById('days-back').addEventListener('click',showDays);
+document.getElementById('days-back').addEventListener('click',showWelcome);
 document.getElementById('chapters-back').addEventListener('click',()=>{
   chaptersView.hidden = true;
   daysView.hidden = false;
