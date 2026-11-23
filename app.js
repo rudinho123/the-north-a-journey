@@ -218,7 +218,7 @@ function showDays() {
     const c = items[0];
     return `<button class="day-row" type="button" data-date="${date}">
       <span class="day-index">${String(i+1).padStart(2,'0')}</span>
-      <span class="day-name">${c.dateLabel}</span>
+      <span class="day-meta"><span class="day-name">${c.title}</span><span class="day-date">${c.dateLabel.replace(/^[^·]+·\\s*/, '')}</span></span>
       <span class="day-arrow" aria-hidden="true">→</span>
     </button>`;
   }).join('');
