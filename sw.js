@@ -1,5 +1,25 @@
-const CACHE_NAME = 'north-journey-v13';
+const CACHE_NAME = 'north-journey-v14';
 const CORE = ['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon.svg','./icon-192.png','./icon-512.png'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(CORE))));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k))))));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(res=>{const copy=res.clone();caches.open(CACHE_NAME).then(c=>c.put(e.request,copy));return res;}).catch(()=>caches.match('./index.html'))));});
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)));
+  self.skipWaiting();
+});
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('north-journey-') && key !== CACHE_NAME).map(key => caches.delete(key)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    try {
+      const response = await fetch(event.request, { cache: 'no-cache' });
+      if (response && response.ok) cache.put(event.request, response.clone());
+      return response;
+    } catch (error) {
+      const cached = await cache.match(event.request);
+      if (cached) return cached;
+      return cache.match('./index.html');
+    }
+  })());
+});
