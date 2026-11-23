@@ -210,7 +210,7 @@ function showDays() {
   const available = groupDays().filter(([,items]) => items.some(isUnlocked));
   if (!available.length) {
     const next = groupDays().find(([,items]) => !items.some(isUnlocked));
-    const dateText = next ? next[1][0].dateLabel.replace(/^[^·]+·\\s*/, '') : '';
+    const dateText = next ? next[1][0].dateLabel.replace(/^[^·]+·\s*/, '') : '';
     daysList.innerHTML = `<p class="empty-note">Ďalší deň sa otvorí ${dateText}.</p>`;
     return;
   }
@@ -250,7 +250,7 @@ function openChapter(id) {
   document.getElementById('reading-day').textContent = c.dateLabel;
   document.getElementById('reading-title').textContent = c.title;
   document.getElementById('reading-deck').textContent = c.deck;
-  const words = (c.body.replace(/<[^>]*>/g,' ').match(/\\S+/g)||[]).length;
+  const words = (c.body.replace(/<[^>]*>/g,' ').match(/\S+/g)||[]).length;
   document.getElementById('reading-time').textContent = `${Math.max(3,Math.ceil(words/190))} MIN ČÍTANIA`;
   document.getElementById('reading-visual').innerHTML = (c.visuals||[]).map(v=>
     `<figure class="article-figure"><img src="${v.src}" alt="${v.alt}" loading="lazy"><figcaption><span>${v.caption}</span><a href="${v.href}" target="_blank" rel="noopener">${v.credit} · zdroj a licencia</a></figcaption></figure>`
