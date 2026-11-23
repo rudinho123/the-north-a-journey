@@ -1,6 +1,6 @@
 const chapters = [
   {
-    id:'bradford-leeds', date:'2026-11-26', dateLabel:'ŠTVRTOK · 26. NOVEMBER', number:'01', title:'Bradford a Leeds', subtitle:'Vlna, železo a mestá, ktoré vyrástli z práce.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Ambler%20Mill%2C%20Bradford.jpg',alt:'Historická textilná továreň Ambler Mill v Bradforde',caption:'Ambler Mill, Bradford',credit:'Roger Templeman · CC BY-SA 2.0',href:'https://commons.wikimedia.org/wiki/File:Ambler_Mill,_Bradford.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Leeds-city-skyline.png',alt:'Panoráma centra Leedsu pri železničnej stanici',caption:'Panoráma Leedsu',credit:'Leedsfan2 · CC BY 4.0',href:'https://commons.wikimedia.org/wiki/File:Leeds-city-skyline.png'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Saltaire%20Salts%20Mill.jpg',alt:'Salts Mill v priemyselnej dedine Saltaire',caption:'Salts Mill, Saltaire (1853)',credit:'Jungpionier · CC BY-SA 3.0',href:'https://commons.wikimedia.org/wiki/File:Saltaire_Salts_Mill.jpg'}],
+    id:'bradford-leeds', date:'2026-11-26', dateLabel:'ŠTVRTOK · 26. NOVEMBER', number:'01', title:'Bradford a Leeds', subtitle:'Vlna, železo a mestá, ktoré vyrástli z práce.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Ambler%20Mill%2C%20Bradford.jpg',alt:'Historická textilná továreň Ambler Mill v Bradforde',caption:'Ambler Mill, Bradford',credit:'Roger Templeman · CC BY-SA 2.0',afterHeading:'Vlnená metropola',href:'https://commons.wikimedia.org/wiki/File:Ambler_Mill,_Bradford.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Leeds%20city%20railway%20station.jpg',alt:'Historická budova železničnej stanice v Leedse',caption:'Leeds City Station',credit:'Tejvan Pettinger · CC BY 2.0',afterHeading:'Leeds: od vlneného trhu',href:'https://commons.wikimedia.org/wiki/File:Leeds_city_railway_station.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Saltaire%20Salts%20Mill.jpg',alt:'Salts Mill v priemyselnej dedine Saltaire',caption:'Salts Mill, Saltaire (1853)',credit:'Jungpionier · CC BY-SA 3.0',afterHeading:'Saltaire – továreň',href:'https://commons.wikimedia.org/wiki/File:Saltaire_Salts_Mill.jpg'}],
     deck:'Dve yorkshirské mestá, ktoré pomáhali obliekať a poháňať priemyselnú Britániu.',
     body:`<p>Keď sa hovorí o priemyselnej revolúcii, často sa spomínajú veľké vynálezy a mená podnikateľov. Na severe Anglicka však jej skutočný príbeh vidno aj v obyčajných veciach: v radoch robotníckych domov, v kanáloch, v železničných násypoch a v továrenských budovách, ktoré kedysi určovali denný rytmus celých štvrtí. Bradford a Leeds ležia v jednom historickom grófstve, no ich hospodárske príbehy sa trochu líšia.</p>
 <h3>Mesto migrácie</h3>
@@ -43,7 +43,7 @@ const chapters = [
     curiosity:'Skús si všimnúť, koľko starých priemyselných budov dostalo druhý život. Čo podľa teba mesto stratí, keď továreň prestane vyrábať – a čo môže získať, keď ju zachová?'
   },
   {
-    id:'liverpool', date:'2026-11-27', dateLabel:'PIATOK · 27. NOVEMBER', number:'02', title:'Liverpool', subtitle:'Prístav, železničná revolúcia a futbalové korene.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Dock%20in%20Liverpool.jpg',alt:'Historické prístavné sklady Albert Dock v Liverpoole',caption:'Albert Dock, Liverpool',credit:'Claudia mdi · CC BY-SA 3.0 ES',href:'https://commons.wikimedia.org/wiki/File:Albert_Dock_in_Liverpool.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Liverpool%20Overhead%20Railway%20carriage%2C%20Museum%20of%20Liverpool-1.jpg',alt:'Historický vagón Liverpool Overhead Railway vystavený v Museum of Liverpool',caption:'Vagón Liverpool Overhead Railway v Museum of Liverpool',credit:'Mike Peel · CC BY-SA 4.0',href:'https://commons.wikimedia.org/wiki/File:Liverpool_Overhead_Railway_carriage,_Museum_of_Liverpool-1.jpg'}],
+    id:'liverpool', date:'2026-11-27', dateLabel:'PIATOK · 27. NOVEMBER', number:'02', title:'Liverpool', subtitle:'Prístav, železničná revolúcia a futbalové korene.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Dock%20in%20Liverpool.jpg',alt:'Historické prístavné sklady Albert Dock v Liverpoole',caption:'Albert Dock, Liverpool',credit:'Claudia mdi · CC BY-SA 3.0',afterHeading:'Doky, obchod',href:'https://commons.wikimedia.org/wiki/File:Albert_Dock_in_Liverpool.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Liverpool%20Overhead%20Railway%20carriage%2C%20Museum%20of%20Liverpool-1.jpg',alt:'Historický vagón Liverpool Overhead Railway vystavený v Museum of Liverpool',caption:'Liverpool Overhead Railway',credit:'Mike Peel · CC BY-SA 4.0',afterHeading:'Železnica, ktorá zmenila',href:'https://commons.wikimedia.org/wiki/File:Liverpool_Overhead_Railway_carriage,_Museum_of_Liverpool-1.jpg'}],
     deck:'Mesto, ktoré spojilo Atlantik s priemyselným vnútrozemím a zmenilo dejiny dopravy.',
     body:`<p>Liverpool je mesto, ktorého dejiny sa vždy odohrávali smerom von – k Írsku, Atlantiku, Afrike, Amerike aj priemyselnému vnútrozemiu Anglicka. Jeho poloha pri ústí rieky Mersey z neho urobila prístav, cez ktorý prechádzali ľudia, suroviny, tovary aj predstavy. Za jeho bohatstvom však stojí aj násilie a vykorisťovanie, ktoré nemožno obísť, ak chceme pochopiť jeho skutočnú históriu.</p>
 <h3>Doky, obchod a cena prosperity</h3>
@@ -89,7 +89,7 @@ const chapters = [
     curiosity:'Everton opustil Anfield v roku 1892 a práve tento rozchod viedol k založeniu Liverpool FC. Futbalová rivalita, ktorá dnes pôsobí ako večná, má teda veľmi konkrétny začiatok v spore o štadión a jeho prenájom.'
   },
   {
-    id:'manchester', date:'2026-11-28', dateLabel:'SOBOTA · 28. NOVEMBER', number:'03', title:'Manchester', subtitle:'Bavlna, robotnícke hnutie a mesto modernej doby.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/MurraysMillsOldDeckerMill.jpg',alt:'Murray’s Mills, historický bavlnársky komplex v Ancoats',caption:'Murray’s Mills, Ancoats',credit:'Pit-yacker · CC BY-SA 3.0',href:'https://commons.wikimedia.org/wiki/File:MurraysMillsOldDeckerMill.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/McConnel%20%26%20Company%20mills%20about%201913.jpg',alt:'Historická kresba tovární McConnel & Company v Ancoats',caption:'Továrne McConnel & Company, približne 1913',credit:'Mr Stephen (scan) · verejná doména',href:'https://commons.wikimedia.org/wiki/File:McConnel_%26_Company_mills_about_1913.jpg'}],
+    id:'manchester', date:'2026-11-28', dateLabel:'SOBOTA · 28. NOVEMBER', number:'03', title:'Manchester', subtitle:'Bavlna, robotnícke hnutie a mesto modernej doby.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/MurraysMillsOldDeckerMill.jpg',alt:'Murray’s Mills, historický bavlnársky komplex v Ancoats',caption:'Murray’s Mills, Ancoats',credit:'Pit-yacker · CC BY-SA 3.0',afterHeading:'Bavlna, impérium',href:'https://commons.wikimedia.org/wiki/File:MurraysMillsOldDeckerMill.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/McConnel%20%26%20Company%20mills%20about%201913.jpg',alt:'Historická kresba tovární McConnel & Company v Ancoats',caption:'McConnel & Company, Ancoats',credit:'Mr Stephen (scan) · verejná doména',afterHeading:'Od bavlny k strojárstvu',href:'https://commons.wikimedia.org/wiki/File:McConnel_%26_Company_mills_about_1913.jpg'}],
     deck:'Priemyselné laboratórium, v ktorom sa formovali nové predstavy o práci, politike aj meste.',
     body:`<p>Manchester sa stal jedným zo symbolov priemyselnej revolúcie. V priebehu niekoľkých generácií sa z pomerne malého trhového mesta premenil na obrovské centrum bavlnárskej výroby, obchodu a dopravy. V 19. storočí ho návštevníci opisovali ako mesto komínov, tovární a hustých robotníckych štvrtí. Jeho význam však nespočíva iba v tom, koľko látky dokázal vyrobiť. Manchester bol aj laboratóriom moderného kapitalizmu a miestom, kde sa formovali nové politické a robotnícke hnutia.</p>
 <h3>Bavlna, impérium a každodennosť továrenského mesta</h3>
@@ -136,7 +136,7 @@ const chapters = [
     curiosity:'Manchester United sa pôvodne volal Newton Heath LYR – skratka odkazovala na železničnú spoločnosť, s ktorou bol klub spätý. Futbalový klub teda začínal ako tím železničiarov.'
   },
   {
-    id:'yorkshire', date:'2026-11-29', dateLabel:'NEDEĽA · 29. NOVEMBER', number:'04', title:'York a Yorkshire', subtitle:'Rímske korene, stredoveké ulice a železničné dedičstvo.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Landscape%20from%20Yorkshire%20Dales.jpg',alt:'Kamenné ohrady a zvlnená krajina Yorkshire Dales',caption:'Krajina Yorkshire Dales',credit:'DenesFeri · CC BY-SA 4.0',href:'https://commons.wikimedia.org/wiki/File:Landscape_from_Yorkshire_Dales.jpg'}],
+    id:'yorkshire', date:'2026-11-29', dateLabel:'NEDEĽA · 29. NOVEMBER', number:'04', title:'York a Yorkshire', subtitle:'Rímske korene, stredoveké ulice a železničné dedičstvo.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Landscape%20from%20Yorkshire%20Dales.jpg',alt:'Kamenné ohrady a zvlnená krajina Yorkshire Dales',caption:'Krajina Yorkshire Dales',credit:'DenesFeri · CC BY-SA 4.0',afterHeading:'Yorkshire: krajina',href:'https://commons.wikimedia.org/wiki/File:Landscape_from_Yorkshire_Dales.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/York%20Minster%2C%20exterior.jpg',alt:'Západné priečelie York Minster',caption:'York Minster',credit:'Robert-brook · CC0 1.0',afterHeading:'Katedrála, cechy',href:'https://commons.wikimedia.org/wiki/File:York_Minster,_exterior.jpg'}],
     deck:'Kraj, v ktorom sa vedľa seba stretávajú rímske hradby, vikingská minulosť a viktoriánska technika.',
     body:`<p>Yorkshire je krajina s mnohými tvárami. Na západe sa dvíhajú Penniny s údoliami, ktoré kedysi poháňali textilné továrne; na východe sa krajina otvára k pobrežiu Severného mora. Medzi nimi leží York, mesto, ktorého dejiny sa dajú čítať ako vrstvy jednej dlhej kroniky: rímska pevnosť, anglosaské centrum, vikingské obchodné mesto, stredoveké náboženské a správne centrum a napokon dôležitý železničný uzol.</p>
 <h3>Yorkshire: krajina, ktorá spájala sever</h3>
@@ -263,18 +263,15 @@ function removeFurtherReading(root) {
 function placeEditorialImages(chapter, root) {
   const visuals = chapter.visuals || [];
   if (!visuals.length) return;
-  const paragraphs = [...root.querySelectorAll('p')];
-  if (!paragraphs.length) return;
-  const step = Math.max(2, Math.floor(paragraphs.length / (visuals.length + 1)));
   visuals.forEach((visual, index) => {
     const figure = document.createElement('figure');
-    figure.className = 'article-figure';
+    figure.className = `article-figure ${index % 2 === 0 ? 'figure--right' : 'figure--left'}`;
     const image = document.createElement('img');
     image.src = visual.src;
     image.alt = visual.alt || '';
     image.loading = index === 0 ? 'eager' : 'lazy';
     image.decoding = 'async';
-    image.sizes = '(max-width: 600px) 100vw, 900px';
+    image.sizes = '(max-width: 600px) 48vw, 320px';
     image.addEventListener('error', () => figure.remove(), { once: true });
     figure.appendChild(image);
     const caption = document.createElement('figcaption');
@@ -286,9 +283,15 @@ function placeEditorialImages(chapter, root) {
     credit.textContent = visual.credit || '';
     caption.append(description, credit);
     figure.appendChild(caption);
-    const paragraphIndex = Math.min(paragraphs.length - 1, Math.max(1, Math.round((index + 1) * paragraphs.length / (visuals.length + 1)) - 1));
-    const anchor = paragraphs[paragraphIndex];
-    anchor.insertAdjacentElement('afterend', figure);
+    const headings = [...root.querySelectorAll('h3')];
+    const heading = visual.afterHeading ? headings.find(h => h.textContent.trim().toLocaleLowerCase('sk').includes(visual.afterHeading.toLocaleLowerCase('sk'))) : null;
+    const anchor = heading ? heading.nextElementSibling : null;
+    if (anchor && anchor.tagName === 'P') anchor.insertAdjacentElement('afterend', figure);
+    else {
+      const paragraphs = [...root.querySelectorAll('p')];
+      const fallback = paragraphs[Math.min(paragraphs.length - 1, Math.max(0, Math.round((index + 1) * paragraphs.length / (visuals.length + 1)) - 1))];
+      if (fallback) fallback.insertAdjacentElement('afterend', figure);
+    }
   });
 }
 function openChapter(id) {
