@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101c2b">
-  <meta name="description" content="The North – A Journey. Historická cesta severným Anglickom.">
+  <meta name="theme-color" content="#f3f0e8">
+  <meta name="description" content="The North – A Journey. Štyri dni, štyri príbehy.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -12,49 +12,37 @@
   <title>The North – A Journey</title>
 </head>
 <body>
-  <header class="topbar">
-    <a class="wordmark" href="#top" aria-label="The North – A Journey, úvod"><span class="mark">N</span><span>THE NORTH <i>— A JOURNEY</i></span></a>
-    <span class="edition">SEVERNÉ ANGLICKO · 2026</span>
-  </header>
-
-  <main id="top">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">CESTOVNÝ DENNÍK · 26—29 NOVEMBER 2026</p>
-        <h1>Miesta majú<br><em>svoje príbehy.</em></h1>
-        <p class="intro">Štyri dni na severe Anglicka. Krajina železníc, tovární, prístavov a futbalových klubov. Skôr než ju uvidíš, spoznaj jej príbehy.</p>
-        <div class="hero-meta"><span>4 kapitoly</span><span>·</span><span>jeden spoločný výlet</span></div>
-      </div>
-      <div class="hero-art" role="img" aria-label="Grafická ilustrácia severoanglickej priemyselnej krajiny s viaduktom a železnicou">
-        <div class="sun"></div><div class="ridge ridge-back"></div><div class="ridge ridge-front"></div>
-        <div class="mill"><div class="chimney"></div><div class="windows"></div></div>
-        <div class="viaduct"><div class="deck"></div><div class="arch a1"></div><div class="arch a2"></div><div class="arch a3"></div><div class="arch a4"></div></div>
-        <div class="rail"></div>
-        <span class="art-caption">YORKSHIRE · INDUSTRIAL HERITAGE</span>
-      </div>
+  <main class="app-shell">
+    <section id="welcome-view" class="welcome-view">
+      <button id="continue-button" class="continue-button" type="button">Pokračovať <span aria-hidden="true">→</span></button>
     </section>
 
-    <section class="today-section" aria-live="polite">
-      <div class="section-heading"><div><p class="eyebrow">TVOJA CESTA</p><h2>Štyri dni, štyri príbehy.</h2></div><span class="progress-label" id="progress-label">0 / 4 sprístupnené</span></div>
-      <div class="progress-track"><div id="progress-fill"></div></div>
-      <div id="chapters" class="chapter-list"></div>
+    <section id="days-view" class="navigation-view" hidden>
+      <button id="days-back" class="back-link" type="button">← Späť</button>
+      <div id="days-list" class="list-view"></div>
+    </section>
+
+    <section id="chapters-view" class="navigation-view" hidden>
+      <button id="chapters-back" class="back-link" type="button">← Dni</button>
+      <h1 id="day-heading" class="day-heading"></h1>
+      <div id="day-chapters" class="list-view"></div>
     </section>
 
     <section class="reading-panel" id="reading-panel" hidden>
-      <div class="reading-top"><span class="eyebrow" id="reading-day"></span><span class="reading-time" id="reading-time"></span><button id="back-button" class="back-button" type="button">← Späť na úvod</button></div>
+      <div class="reading-top">
+        <span class="eyebrow" id="reading-day"></span>
+        <span class="reading-time" id="reading-time"></span>
+        <button id="back-button" class="back-link" type="button">← Kapitoly</button>
+      </div>
       <article>
-        <h2 id="reading-title"></h2>
+        <h1 id="reading-title"></h1>
         <p class="reading-deck" id="reading-deck"></p>
         <div class="reading-visual" id="reading-visual"></div>
         <div class="article-body" id="reading-body"></div>
-        <div class="closing-note"><span class="closing-star">✳</span><p id="reading-curiosity"></p></div>
+        <div class="closing-note"><p id="reading-curiosity"></p></div>
       </article>
     </section>
-
-    <section class="about-strip"><span class="about-icon">✳</span><p><strong>Malý sprievodca veľkým severom.</strong><br>Každé ráno sa odomkne ďalšia kapitola. Zvyšok cesty necháva priestor na prekvapenie.</p></section>
   </main>
-
-  <footer><span>THE NORTH — A JOURNEY</span><span>MADE FOR THE ROAD · 2026</span></footer>
   <script src="app.js"></script>
 </body>
 </html>
