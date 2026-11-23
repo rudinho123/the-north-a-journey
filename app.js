@@ -272,8 +272,10 @@ function placeEditorialImages(chapter, root) {
     const image = document.createElement('img');
     image.src = visual.src;
     image.alt = visual.alt || '';
-    image.loading = 'lazy';
+    image.loading = index === 0 ? 'eager' : 'lazy';
     image.decoding = 'async';
+    image.sizes = '(max-width: 600px) 100vw, 900px';
+    image.addEventListener('error', () => figure.remove(), { once: true });
     figure.appendChild(image);
     const caption = document.createElement('figcaption');
     const description = document.createElement('span');
