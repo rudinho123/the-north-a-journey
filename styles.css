@@ -72,7 +72,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
   .reading-panel article{padding:32px 0 20px}
   .reading-panel h1{font-size:clamp(39px,11vw,49px)}
   .reading-deck{margin:14px 0 29px;font-size:19px}
-  .article-body{font-size:16px;line-height:1.84;text-align:justify;text-justify:inter-word;hyphens:manual;-webkit-hyphens:manual;overflow-wrap:normal;word-break:normal;text-align-last:left}
+  .article-body{font-size:16px;line-height:1.84;text-align:left;text-justify:auto;hyphens:manual;-webkit-hyphens:manual;overflow-wrap:normal;word-break:normal;text-align-last:auto}
   .article-body p{margin-bottom:1.45em}
   .article-body h3{margin:2.8em 0 1em;font-size:10px}
   /* Mobile editorial rhythm: images sit between paragraphs, never beside a narrow text column. */
@@ -94,7 +94,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
   .reading-time{margin-left:auto}
 }
 @media(max-width:380px){
-  .article-body{font-size:15.7px;line-height:1.82;text-align:justify;hyphens:manual;-webkit-hyphens:manual;text-align-last:left}
+  .article-body{font-size:15.7px;line-height:1.82;text-align:left;hyphens:manual;-webkit-hyphens:manual;text-align-last:auto}
   .article-figure,.article-figure.figure--right{width:62%;max-width:215px}
   .article-figure.figure--left{width:57%;max-width:195px}
 }
