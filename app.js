@@ -136,7 +136,7 @@ const chapters = [
     curiosity:'Manchester United sa pôvodne volal Newton Heath LYR – skratka odkazovala na železničnú spoločnosť, s ktorou bol klub spätý. Futbalový klub teda začínal ako tím železničiarov.'
   },
   {
-    id:'yorkshire', date:'2026-11-29', dateLabel:'NEDEĽA · 29. NOVEMBER', number:'04', title:'York a Yorkshire', subtitle:'Rímske korene, stredoveké ulice a železničné dedičstvo.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Landscape%20from%20Yorkshire%20Dales.jpg',alt:'Kamenné ohrady a zvlnená krajina Yorkshire Dales',caption:'Krajina Yorkshire Dales',credit:'DenesFeri · CC BY-SA 4.0',afterHeading:'Yorkshire: krajina',href:'https://commons.wikimedia.org/wiki/File:Landscape_from_Yorkshire_Dales.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/York%20Minster%2C%20exterior.jpg',alt:'Západné priečelie York Minster',caption:'York Minster',credit:'Robert-brook · CC0 1.0',afterHeading:'Katedrála, cechy',href:'https://commons.wikimedia.org/wiki/File:York_Minster,_exterior.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/York%20railway%20station%20and%20skyline%20from%20city%20walls.JPG',alt:'Yorkská železničná stanica a panoráma mesta videná z mestských hradieb',caption:'York Station a panoráma mesta z hradieb',credit:'Harry Mitchell · CC BY 3.0',afterHeading:'York ako železničné mesto',href:'https://commons.wikimedia.org/wiki/File:York_railway_station_and_skyline_from_city_walls.JPG'}],
+    id:'yorkshire', date:'2026-11-29', dateLabel:'NEDEĽA · 29. NOVEMBER', number:'04', title:'York a Yorkshire', subtitle:'Rímske korene, stredoveké ulice a železničné dedičstvo.', visuals:[{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Landscape%20from%20Yorkshire%20Dales.jpg',alt:'Kamenné ohrady a zvlnená krajina Yorkshire Dales',caption:'Krajina Yorkshire Dales',credit:'DenesFeri · CC BY-SA 4.0',afterHeading:'Yorkshire: krajina',href:'https://commons.wikimedia.org/wiki/File:Landscape_from_Yorkshire_Dales.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/York%20Minster%2C%20exterior.jpg',alt:'Západné priečelie York Minster',caption:'York Minster',credit:'Robert-brook · CC0 1.0',afterHeading:'Katedrála, cechy',href:'https://commons.wikimedia.org/wiki/File:York_Minster,_exterior.jpg'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/York%20railway%20station%20and%20skyline%20from%20city%20walls.JPG',alt:'Yorkská železničná stanica a panoráma mesta videná z mestských hradieb',caption:'York Station a panoráma mesta z hradieb',credit:'Harry Mitchell · CC BY 3.0',afterHeading:'York ako železničné mesto',href:'https://commons.wikimedia.org/wiki/File:York_railway_station_and_skyline_from_city_walls.JPG'},{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Multangular%20tower.jpg',alt:'Multangular Tower, zachovaná časť rímskeho opevnenia Eboraca v Yorku',caption:'Multangular Tower – rímske hradby Eboraca',credit:'ChrisO · public domain',afterHeading:'Od Eoforwic k Jórvíku',href:'https://commons.wikimedia.org/wiki/File:Multangular_tower.jpg'}],
     deck:'Kraj, v ktorom sa vedľa seba stretávajú rímske hradby, vikingská minulosť a viktoriánska technika.',
     body:`<p>Yorkshire je krajina s mnohými tvárami. Na západe sa dvíhajú Penniny s údoliami, ktoré kedysi poháňali textilné továrne; na východe sa krajina otvára k pobrežiu Severného mora. Medzi nimi leží York, mesto, ktorého dejiny sa dajú čítať ako vrstvy jednej dlhej kroniky: rímska pevnosť, anglosaské centrum, vikingské obchodné mesto, stredoveké náboženské a správne centrum a napokon dôležitý železničný uzol.</p>
 <h3>Yorkshire: krajina, ktorá spájala sever</h3>
@@ -284,6 +284,15 @@ function placeEditorialImages(chapter, root) {
     if (visual.href) { credit.href = visual.href; credit.target = '_blank'; credit.rel = 'noopener'; }
     if (visual.creditHref) { credit.href = visual.creditHref; credit.target = '_blank'; credit.rel = 'noopener'; }
     caption.append(description, credit);
+    if (visual.creditHref && visual.href) {
+      const source = document.createElement('a');
+      source.href = visual.href;
+      source.target = '_blank';
+      source.rel = 'noopener';
+      source.textContent = 'zdroj';
+      source.className = 'image-credit';
+      caption.append(' · ', source);
+    }
     if (visual.licenseHref) {
       const license = document.createElement('a');
       license.href = visual.licenseHref;
