@@ -207,6 +207,7 @@ function showDays() {
   chaptersView.hidden = true;
   panel.hidden = true;
   daysView.hidden = false;
+  animateView(daysView);
   const available = groupDays().filter(([,items]) => items.some(isUnlocked));
   if (!available.length) {
     const next = groupDays().find(([,items]) => !items.some(isUnlocked));
@@ -233,6 +234,7 @@ function showDay(date) {
   daysView.hidden = true;
   panel.hidden = true;
   chaptersView.hidden = false;
+  animateView(chaptersView);
   document.getElementById('day-heading').textContent = items[0].dateLabel;
   dayChapters.innerHTML = items.map(c => `
     <button class="chapter-row" type="button" data-id="${c.id}">
@@ -313,6 +315,7 @@ document.getElementById('days-back').addEventListener('click',showDays);
 document.getElementById('chapters-back').addEventListener('click',()=>{
   chaptersView.hidden = true;
   daysView.hidden = false;
+  animateView(daysView);
   window.scrollTo({top:0,behavior:'smooth'});
 });
 document.getElementById('back-button').addEventListener('click',()=>{
