@@ -74,7 +74,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
   .reading-panel article{padding:32px 0 20px}
   .reading-panel h1{font-size:clamp(39px,11vw,49px)}
   .reading-deck{margin:14px 0 29px;font-size:19px}
-  .article-body{font-size:16px;line-height:1.84;text-align:left!important;text-justify:none;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:normal;word-break:normal;text-align-last:auto!important}
+  .article-body{font-size:17.5px;font-weight:500;line-height:1.82;text-align:left!important;text-justify:none;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:normal;word-break:normal;text-align-last:auto!important}
   .article-body p{margin-bottom:1.45em}
   .article-body h3{margin:2.8em 0 1em;font-size:10px}
   /* Mobile editorial rhythm: images sit between paragraphs, never beside a narrow text column. */
@@ -95,7 +95,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
   .reading-time{margin-left:auto}
 }
 @media(max-width:380px){
-  .article-body{font-size:15.7px;line-height:1.82;text-align:left!important;hyphens:auto;-webkit-hyphens:auto;text-align-last:auto!important}
+  .article-body{font-size:17px;font-weight:500;line-height:1.8;text-align:left!important;hyphens:auto;-webkit-hyphens:auto;text-align-last:auto!important}
   .article-figure,.article-figure.figure--right,.article-figure.figure--left{width:min(86%,300px);max-width:300px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
