@@ -244,23 +244,68 @@ function showDay(date) {
     el.addEventListener('click',()=>openChapter(el.dataset.id))
   );
 }
+function animateView(view) {
+  view.classList.remove('view-enter');
+  void view.offsetWidth;
+  view.classList.add('view-enter');
+}
+function removeFurtherReading(root) {
+  root.querySelectorAll('h3').forEach(heading => {
+    if (/^na ďalšie čítanie$/i.test(heading.textContent.trim())) {
+      const list = heading.nextElementSibling;
+      heading.remove();
+      if (list && list.tagName === 'UL') list.remove();
+    }
+  });
+}
+function placeEditorialImages(chapter, root) {
+  const visuals = chapter.visuals || [];
+  if (!visuals.length) return;
+  const paragraphs = [...root.querySelectorAll('p')];
+  if (!paragraphs.length) return;
+  const step = Math.max(2, Math.floor(paragraphs.length / (visuals.length + 1)));
+  visuals.forEach((visual, index) => {
+    const figure = document.createElement('figure');
+    figure.className = 'article-figure';
+    const image = document.createElement('img');
+    image.src = visual.src;
+    image.alt = visual.alt || '';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    figure.appendChild(image);
+    const caption = document.createElement('figcaption');
+    const description = document.createElement('span');
+    description.className = 'image-caption';
+    description.textContent = visual.caption || '';
+    const credit = document.createElement('span');
+    credit.className = 'image-credit';
+    credit.textContent = visual.credit || '';
+    caption.append(description, credit);
+    figure.appendChild(caption);
+    const paragraphIndex = Math.min(paragraphs.length - 1, Math.max(1, Math.round((index + 1) * paragraphs.length / (visuals.length + 1)) - 1));
+    const anchor = paragraphs[paragraphIndex];
+    anchor.insertAdjacentElement('afterend', figure);
+  });
+}
 function openChapter(id) {
   const c = chapters.find(x=>x.id===id);
   if (!c || !isUnlocked(c)) return;
   document.getElementById('reading-day').textContent = c.dateLabel;
   document.getElementById('reading-title').textContent = c.title;
   document.getElementById('reading-deck').textContent = c.deck;
-  const words = (c.body.replace(/<[^>]*>/g,' ').match(/\S+/g)||[]).length;
+  const words = (c.body.replace(/<[^>]*>/g,' ').match(/\\S+/g)||[]).length;
   document.getElementById('reading-time').textContent = `${Math.max(3,Math.ceil(words/190))} MIN ČÍTANIA`;
-  document.getElementById('reading-visual').innerHTML = (c.visuals||[]).map(v=>
-    `<figure class="article-figure"><img src="${v.src}" alt="${v.alt}" loading="lazy"><figcaption><span>${v.caption}</span><a href="${v.href}" target="_blank" rel="noopener">${v.credit} · zdroj a licencia</a></figcaption></figure>`
-  ).join('');
-  document.getElementById('reading-body').innerHTML = c.body;
+  const articleBody = document.getElementById('reading-body');
+  articleBody.innerHTML = c.body;
+  removeFurtherReading(articleBody);
+  placeEditorialImages(c, articleBody);
+  document.getElementById('reading-visual').innerHTML = '';
   document.getElementById('reading-curiosity').textContent = c.curiosity;
   welcomeView.hidden = true;
   daysView.hidden = true;
   chaptersView.hidden = true;
   panel.hidden = false;
+  animateView(panel);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.getElementById('continue-button').addEventListener('click',showDays);
