@@ -283,8 +283,15 @@ function renderRouteScene(route,index){
   routeTimers.push(setTimeout(()=>{
    const a=scene.points[leg[0]],b=scene.points[leg[1]];
    const line=L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:'#b77a58',weight:3,opacity:0.9,dashArray:'7 9',className:'route-map-line'}).addTo(routeLayer);
-   const el=line.getElement();
-   if(el)el.classList.add('route-map-line-active');
+   const icon=L.divIcon({className:'route-moving-icon',html:scene.mode==='LETECKY'?'✈':'●',iconSize:[28,28],iconAnchor:[14,14]});
+   const moving=L.marker([a.lat,a.lng],{icon,interactive:false}).addTo(routeLayer);
+   const frames=48,duration=1500;
+   for(let frame=1;frame<=frames;frame++){
+    routeTimers.push(setTimeout(()=>{
+     const t=frame/frames;
+     moving.setLatLng([a.lat+(b.lat-a.lat)*t,a.lng+(b.lng-a.lng)*t]);
+    },frame*(duration/frames)));
+   }
   },850+i*1450));
  });
 }
