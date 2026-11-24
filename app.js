@@ -268,6 +268,7 @@ function renderRouteScene(route,index){
   routeSceneHeading.textContent='Mapa nie je dostupná';
   return;
  }
+ routeMapStage.classList.remove('route-scene-transition');
  routeSceneHeading.innerHTML='<span>'+scene.mode+'</span><strong>'+scene.title+'</strong>';
  routeMap.invalidateSize();
  routeLayer.clearLayers();
