@@ -1,36 +1,48 @@
 # The North – A Journey
 
-Slovenská statická PWA – štvordňový historický sprievodca severným Anglickom.
+Slovenská statická webová aplikácia a PWA – historický sprievodca štyrmi dňami na severe Anglicka (26.–29. novembra 2026).
 
-## Spustenie lokálne
+**Živá aplikácia:** https://rudinho123.github.io/the-north-a-journey/
 
-V priečinku projektu spusti napríklad:
+## Obsah
+
+- 26. 11. – Bradford a Leeds
+- 27. 11. – Liverpool
+- 28. 11. – Manchester
+- 29. 11. – York a Yorkshire
+
+Návratový deň 30. novembra nie je súčasťou sprievodcu.
+
+## Lokálne spustenie
+
+V koreňovom priečinku projektu spusti:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Potom otvor `http://localhost:8000`.
+Potom otvor http://localhost:8000.
 
-## Bezplatné publikovanie cez GitHub Pages
+## Publikovanie
 
-1. Vytvor nový **verejný** GitHub repository (keďže súkromie obsahu neriešime, je to najjednoduchšie riešenie).
-2. Nahraj všetky súbory a priečinky z tohto projektu priamo do koreňového priečinka repository.
-3. V `Settings → Pages` vyber `Deploy from a branch`, vetvu `main` a priečinok `/(root)`.
-4. Po publikovaní GitHub zobrazí adresu webu. Túto jednu adresu môžeš poslať bratovi.
+Projekt už používa GitHub Pages. Zmeny v hlavnej vetve `main` sa publikujú na vyššie uvedenej adrese. Nasadenie a zdrojové súbory sú v tomto repozitári.
 
 ## Denné sprístupňovanie
 
-Kapitoly sa sprístupňujú podľa lokálneho dátumu zariadenia: 26.–29. 11. 2026. Názvy budúcich kapitol sa dovtedy nezobrazujú. Texty nezverejňujú konkrétne miesta, ktoré by prezradili plánované zastávky; Liverpool je výnimkou, pretože história všetkých troch štadiónov je výslovne súčasťou zadania. Ide o jednoduchú klientsku kontrolu dátumu, nie o bezpečnostnú ochranu.
+Kapitoly sa sprístupňujú podľa dátumu v časovom pásme `Europe/London` (26.–29. 11. 2026). Ide o jednoduchú klientsku kontrolu dátumu, nie o bezpečnostnú ochranu. Parameter `?preview=1` umožňuje náhľad kapitol pred ich sprístupnením.
 
-## Fotografie a licencie
+## Fotografie a mapy
 
-Fotografie sa načítavajú z Wikimedia Commons. Pri každej fotografii je v aplikácii uvedený autor, licencia a odkaz na pôvodnú stránku súboru. Fotografie sa načítajú pri otvorení kapitoly; na ich zobrazenie je potrebné internetové pripojenie. Pri každej snímke je uvedený autor, licencia alebo stav verejnej domény a odkaz na pôvodný súbor. Pred ďalším použitím obrázkov si vždy skontroluj aktuálne podmienky na stránke Commons.
-
-## Úprava obsahu
-
-Texty, dátumy, titulky a fotografie jednotlivých dní sú v poli `chapters` v súbore `app.js`. Vzhľad upravuje `styles.css`.
+Fotografie sa načítavajú z Wikimedia Commons. Pri fotografiách sú uvedené autorské a licenčné informácie priamo v popisoch obrázkov. V kapitolách sú vložené mapy OpenStreetMap. Fotografie, vložené mapy a webové fonty vyžadujú internetové pripojenie.
 
 ## Offline režim
 
-Aplikácia ukladá základné súbory rozhrania do cache. Samotné fotografie z Wikimedia Commons a prvé načítanie stránky vyžadujú internetové pripojenie.
+Service worker ukladá základné súbory aplikácie (HTML, CSS, JavaScript, manifest a ikony) do cache. Po prvom úspešnom načítaní tak môže byť dostupná základná štruktúra aplikácie a texty kapitol. Externé fotografie, mapy OpenStreetMap a webové fonty sa offline nemusia zobraziť.
+
+## Úprava obsahu
+
+- Texty, dátumy, trasy a fotografie: `app.js`
+- Vzhľad a responzívne rozloženie: `styles.css`
+- Základná štruktúra: `index.html`
+- PWA cache: `sw.js`
+- Inštalačné nastavenia: `manifest.webmanifest`

@@ -154,3 +154,8 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 .route-sequence i{color:var(--accent);font-style:normal}
 @media(max-width:600px){.route-map-stage{height:290px}.north-map{padding:4px}.north-map-label{font-size:18px}.route-sequence{gap:7px 9px}}
 @media(prefers-reduced-motion:reduce){.north-map-point{transition:none!important;opacity:1!important;transform:none!important}.north-map-route{animation:none!important;stroke-dashoffset:0!important}}
+
+/* Navigation and clarity refinements */
+.route-intro-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:flex-end}
+.route-map-note{margin:8px 0 0;color:var(--muted);font:500 10px/1.5 var(--sans);letter-spacing:.02em}
+@media(max-width:600px){.route-intro-actions{gap:10px}.route-intro-actions .back-link{font-size:9px}}
