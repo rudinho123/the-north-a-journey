@@ -136,3 +136,5 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 @keyframes routePointIn{to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.route-intro-view{padding-top:18px}.route-intro-content{padding-top:34px}.route-map-stage{height:290px}.route-scene-heading strong{font-size:17px}.route-steps{grid-template-columns:1fr 1fr;gap:4px}.route-step{padding:9px 4px}.route-step strong{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.route-map-line,.route-step{animation:none!important;opacity:1!important;stroke-dashoffset:0!important}}
+
+.route-moving-icon{display:grid!important;place-items:center!important;background:var(--paper)!important;border:1px solid var(--accent)!important;border-radius:50%!important;color:var(--ink)!important;font:600 17px/1 var(--sans)!important;box-shadow:0 1px 5px #17263825!important}
