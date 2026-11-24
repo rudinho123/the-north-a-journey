@@ -239,21 +239,21 @@ function showWelcome() {
 
 const dailyRoutes = {
  '2026-11-26':{title:'Cesta na sever',subtitle:'Z Bratislavy cez Manchester až do Yorkshire.',scenes:[
-  {title:'Naprieč Európou',mode:'LETECKY',points:[{name:'Bratislava',lat:48.17,lng:17.21},{name:'Manchester',lat:53.35,lng:-2.27}],legs:[[0,1]],zoom:5},
-  {title:'Z letiska do Yorkshire',mode:'VLAKOM',points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bradford',lat:53.795,lng:-1.759},{name:'Leeds',lat:53.8008,lng:-1.5491}],legs:[[0,1],[1,2]],zoom:9}
+  {title:'Naprieč Európou',mode:'LETECKY',stepIndices:[0],points:[{name:'Bratislava',lat:48.17,lng:17.21},{name:'Manchester',lat:53.35,lng:-2.27}],legs:[[0,1]],zoom:5},
+  {title:'Z letiska do Yorkshire',mode:'VLAKOM',stepIndices:[1,2],points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bradford',lat:53.795,lng:-1.759},{name:'Leeds',lat:53.8008,lng:-1.5491}],legs:[[0,1],[1,2]],zoom:9}
  ],steps:[['Bratislava','Manchester','Lietadlom'],['Manchester','Bradford','Vlakom'],['Bradford','Leeds','Vlakom']]},
  '2026-11-27':{title:'Výprava na západ',subtitle:'Zo Yorkshire k rieke Mersey a späť.',scenes:[
-  {title:'Medzi Yorkshire a Merseyside',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Liverpool',lat:53.4084,lng:-2.9916}],legs:[[0,1],[1,0]],zoom:8}
+  {title:'Medzi Yorkshire a Merseyside',mode:'VLAKOM',stepIndices:[0,1],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Liverpool',lat:53.4084,lng:-2.9916}],legs:[[0,1],[1,0]],zoom:8}
  ],steps:[['Leeds','Liverpool','Vlakom'],['Liverpool','Leeds','Vlakom']]},
  '2026-11-28':{title:'Výprava do Manchestru',subtitle:'Z Leedsu do Manchestru na zápas a späť.',scenes:[
-  {title:'Leeds a Manchester',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.48,lng:-2.24}],legs:[[0,1],[1,0]],zoom:9}
+  {title:'Leeds a Manchester',mode:'VLAKOM',stepIndices:[0,1],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.48,lng:-2.24}],legs:[[0,1],[1,0]],zoom:9}
  ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Leeds','Vlakom']]},
  '2026-11-29':{title:'Srdce Yorkshire',subtitle:'Deň medzi historickými mestami a trhovými mestečkami.',scenes:[
-  {title:'Yorkshire',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'York',lat:53.959,lng:-1.0815},{name:'Harrogate',lat:53.9921,lng:-1.541}],legs:[[0,1],[1,2],[2,0]],zoom:9}
+  {title:'Yorkshire',mode:'VLAKOM',stepIndices:[0,1,2],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'York',lat:53.959,lng:-1.0815},{name:'Harrogate',lat:53.9921,lng:-1.541}],legs:[[0,1],[1,2],[2,0]],zoom:9}
  ],steps:[['Leeds','York','Vlakom'],['York','Harrogate','Vlakom'],['Harrogate','Leeds','Vlakom']]},
  '2026-11-30':{title:'Cesta domov',subtitle:'Z Leedsu cez Manchester späť do Bratislavy.',scenes:[
-  {title:'Z Leedsu do Manchestru',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.365,lng:-2.272}],legs:[[0,1]],zoom:9},
-  {title:'Späť na Slovensko',mode:'LETECKY',points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bratislava',lat:48.17,lng:17.21}],legs:[[0,1]],zoom:5}
+  {title:'Z Leedsu do Manchestru',mode:'VLAKOM',stepIndices:[0],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.365,lng:-2.272}],legs:[[0,1]],zoom:9},
+  {title:'Späť na Slovensko',mode:'LETECKY',stepIndices:[1],points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bratislava',lat:48.17,lng:17.21}],legs:[[0,1]],zoom:5}
  ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Bratislava','Lietadlom']]}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
@@ -270,34 +270,36 @@ function renderRouteScene(route,index){
  const scene=route.scenes[index];
  if(!ensureRouteMap()){
   routeSceneHeading.textContent='Mapa nie je dostupná';
+  routeSteps.innerHTML='<p class="route-step">Animovaná mapa sa nepodarila načítať.</p>';
   return;
  }
  routeMapStage.classList.remove('route-scene-transition');
  routeSceneHeading.innerHTML='<span>'+scene.mode+'</span><strong>'+scene.title+'</strong>';
- routeMap.invalidateSize();
+ routeMap.invalidateSize(true);
  routeLayer.clearLayers();
  const bounds=L.latLngBounds(scene.points.map(p=>[p.lat,p.lng]));
- routeMap.flyToBounds(bounds.pad(scene.zoom===5?0.42:0.65),{duration:1.5,maxZoom:scene.zoom});
- routeSteps.innerHTML=route.steps.map((step,i)=>'<div class="route-step" style="animation-delay:'+(0.7+i*1.35)+'s"><span class="route-step-number">'+String(i+1).padStart(2,'0')+'</span><span><strong>'+step[0]+' → '+step[1]+'</strong><small>'+step[2]+'</small></span></div>').join('');
- scene.points.forEach((p,i)=>{
-  const marker=L.circleMarker([p.lat,p.lng],{radius:6,color:'#b77a58',weight:2,fillColor:'#f3f0e8',fillOpacity:1}).bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-7],className:'route-map-label'});
+ routeMap.flyToBounds(bounds.pad(scene.zoom===5?0.42:0.65),{duration:1.2,maxZoom:scene.zoom});
+ const visibleSteps=(scene.stepIndices||route.steps.map((_,i)=>i)).map(i=>route.steps[i]).filter(Boolean);
+ routeSteps.innerHTML=visibleSteps.map((step,i)=>'<div class="route-step route-step-active" style="animation-delay:'+(0.15+i*0.25)+'s"><span class="route-step-number">'+String((scene.stepIndices||[])[i]+1||i+1).padStart(2,'0')+'</span><span><strong>'+step[0]+' → '+step[1]+'</strong><small>'+step[2]+'</small></span></div>').join('');
+ scene.points.forEach(p=>{
+  const marker=L.circleMarker([p.lat,p.lng],{radius:7,color:'#b77a58',weight:2.5,fillColor:'#f3f0e8',fillOpacity:1}).bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-9],className:'route-map-label'});
   routeLayer.addLayer(marker);
  });
  scene.legs.forEach((leg,i)=>{
   routeTimers.push(setTimeout(()=>{
    const a=scene.points[leg[0]],b=scene.points[leg[1]];
-   const line=L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:'#b77a58',weight:3,opacity:0.9,dashArray:'7 9',className:'route-map-line'}).addTo(routeLayer);
-   const icon=L.divIcon({className:'route-moving-icon',html:scene.mode==='LETECKY'?'✈':'🚆',iconSize:[28,28],iconAnchor:[14,14]});
-   const moving=L.marker([a.lat,a.lng],{icon,interactive:false}).addTo(routeLayer);
+   const line=L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:'#b77a58',weight:4,opacity:0.95,lineCap:'round'}).addTo(routeLayer);
+   const icon=L.divIcon({className:'route-moving-icon',html:scene.mode==='LETECKY'?'✈':'🚆',iconSize:[38,38],iconAnchor:[19,19]});
+   const moving=L.marker([a.lat,a.lng],{icon,interactive:false,zIndexOffset:1000}).addTo(routeLayer);
    const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-   const frames=reduceMotion?1:48,duration=reduceMotion?0:1500;
+   const frames=reduceMotion?1:90,duration=reduceMotion?0:2600;
    for(let frame=1;frame<=frames;frame++){
     routeTimers.push(setTimeout(()=>{
      const t=frame/frames;
      moving.setLatLng([a.lat+(b.lat-a.lat)*t,a.lng+(b.lng-a.lng)*t]);
     },frame*(duration/frames)));
    }
-  },850+i*1450));
+  },650+i*2900));
  });
 }
 function finishRouteIntro(){
@@ -312,7 +314,7 @@ function showRouteIntro(date,route){
  let elapsed=0;
  route.scenes.forEach((scene,index)=>{
   routeTimers.push(setTimeout(()=>renderRouteScene(route,index),elapsed));
-  elapsed+=scene.legs.length*1.45+2.15;
+  elapsed+=scene.legs.length*2.9+1.35;
   if(index<route.scenes.length-1)routeTimers.push(setTimeout(()=>{routeMapStage.classList.add('route-scene-transition');},elapsed-0.35));
  });
  routeTimers.push(setTimeout(finishRouteIntro,elapsed+0.25));
