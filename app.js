@@ -259,7 +259,7 @@ function renderBlankMap(route){
   'Leeds':[13,22,'start'],
   'Liverpool':[-12,-15,'end'],
   'York':[12,-14,'start'],
-  'Harrogate':[-12,24,'end']
+  'Harrogate':[-12,-16,'end']
  };
  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  route.points.forEach((point,index)=>{
