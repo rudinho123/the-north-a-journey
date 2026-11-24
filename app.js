@@ -236,10 +236,10 @@ function showWelcome() {
 }
 
 const mapRoutes = {
- '2026-11-26':{title:'Bradford a Leeds',subtitle:'Z Manchestru cez Bradford do Leedsu.',points:[['Manchester',376,306],['Bradford',392,292],['Leeds',398,292]],sequence:['Manchester','Bradford','Leeds']},
- '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',398,292],['Liverpool',353,309]],path:[['Leeds',398,292],['Liverpool',353,309],['Leeds',398,292]],sequence:['Leeds','Liverpool','Leeds']},
- '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',398,292],['Manchester',376,306]],path:[['Leeds',398,292],['Manchester',376,306],['Leeds',398,292]],sequence:['Leeds','Manchester','Leeds']},
- '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',398,292],['York',413,284],['Harrogate',399,283]],path:[['Leeds',398,292],['York',413,284],['Harrogate',399,283],['Leeds',398,292]],sequence:['Leeds','York','Harrogate','Leeds']}
+ '2026-11-26':{title:'Bradford a Leeds',subtitle:'Z Manchestru cez Bradford do Leedsu.',points:[['Manchester',374,309],['Bradford',390,294],['Leeds',400,291]],sequence:['Manchester','Bradford','Leeds']},
+ '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',400,291],['Liverpool',349,311]],path:[['Leeds',400,291],['Liverpool',349,311],['Leeds',400,291]],sequence:['Leeds','Liverpool','Leeds']},
+ '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',400,291],['Manchester',374,309]],path:[['Leeds',400,291],['Manchester',374,309],['Leeds',400,291]],sequence:['Leeds','Manchester','Leeds']},
+ '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',400,291],['York',418,279],['Harrogate',401,278]],path:[['Leeds',400,291],['York',418,279],['Harrogate',401,278],['Leeds',400,291]],sequence:['Leeds','York','Harrogate','Leeds']}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
 function renderBlankMap(route){
@@ -268,7 +268,7 @@ function renderBlankMap(route){
    group.setAttribute('class','north-map-point');
    group.setAttribute('transform','translate('+point[1]+' '+point[2]+')');
    const circle=document.createElementNS(svgNS,'circle');
-   circle.setAttribute('r','7');
+   circle.setAttribute('r','5.5');
    circle.setAttribute('class','north-map-dot');
    const label=document.createElementNS(svgNS,'text');
    const offset=labelOffsets[point[0]]||[12,-12,'start'];
