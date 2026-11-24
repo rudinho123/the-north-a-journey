@@ -138,3 +138,18 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 @media(prefers-reduced-motion:reduce){.route-map-line,.route-step{animation:none!important;opacity:1!important;stroke-dashoffset:0!important}}
 
 .route-moving-icon{display:grid!important;place-items:center!important;background:var(--paper)!important;border:1px solid var(--accent)!important;border-radius:50%!important;color:var(--ink)!important;font:600 17px/1 var(--sans)!important;box-shadow:0 1px 5px #17263825!important}
+
+/* Static blind map: no map tiles, external map library or live routing. */
+.north-map{display:block;width:100%;height:100%;padding:12px}
+.north-map-land{fill:#dedbd2;stroke:none}
+.north-map-coast{fill:none;stroke:#a9a59a;stroke-width:2.2;stroke-linejoin:round}
+.north-map-route{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:5 8;stroke-linecap:round;stroke-linejoin:round;opacity:.55}
+.north-map-point{opacity:0;transform:scale(.7);transform-box:fill-box;transform-origin:center;transition:opacity .45s ease,transform .45s ease}
+.north-map-point.is-visible{opacity:1;transform:scale(1)}
+.north-map-dot{fill:var(--accent);stroke:var(--paper);stroke-width:3}
+.north-map-label{fill:var(--ink);font:600 16px var(--sans);paint-order:stroke;stroke:#e9e6dd;stroke-width:5px;stroke-linejoin:round}
+.route-sequence{display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:9px 12px;margin-top:13px;color:var(--ink);font:500 11px/1.5 var(--sans)}
+.route-sequence span{white-space:nowrap}
+.route-sequence i{color:var(--accent);font-style:normal}
+@media(max-width:600px){.route-map-stage{height:290px}.north-map{padding:4px}.north-map-label{font-size:18px}.route-sequence{gap:7px 9px}}
+@media(prefers-reduced-motion:reduce){.north-map-point{transition:none!important;opacity:1!important;transform:none!important}}
