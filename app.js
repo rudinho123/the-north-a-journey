@@ -236,15 +236,15 @@ function showWelcome() {
 }
 
 const mapRoutes = {
- '2026-11-26':{title:'Bradford a Leeds',subtitle:'Z Manchestru cez Bradford do Leedsu.',points:[['Manchester',300,340],['Bradford',420,300],['Leeds',470,300]],sequence:['Manchester','Bradford','Leeds']},
- '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',470,300],['Liverpool',150,380]],path:[['Leeds',470,300],['Liverpool',150,380],['Leeds',470,300]],sequence:['Leeds','Liverpool','Leeds']},
- '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',470,300],['Manchester',300,340]],path:[['Leeds',470,300],['Manchester',300,340],['Leeds',470,300]],sequence:['Leeds','Manchester','Leeds']},
- '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',470,300],['York',555,220],['Harrogate',485,245]],path:[['Leeds',470,300],['York',555,220],['Harrogate',485,245],['Leeds',470,300]],sequence:['Leeds','York','Harrogate','Leeds']}
+ '2026-11-26':{title:'Bradford a Leeds',subtitle:'Z Manchestru cez Bradford do Leedsu.',points:[['Manchester',487,284],['Bradford',514,270],['Leeds',524,269]],sequence:['Manchester','Bradford','Leeds']},
+ '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',524,269],['Liverpool',446,286]],path:[['Leeds',524,269],['Liverpool',446,286],['Leeds',524,269]],sequence:['Leeds','Liverpool','Leeds']},
+ '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',524,269],['Manchester',487,284]],path:[['Leeds',524,269],['Manchester',487,284],['Leeds',524,269]],sequence:['Leeds','Manchester','Leeds']},
+ '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',524,269],['York',550,262],['Harrogate',524,260]],path:[['Leeds',524,269],['York',550,262],['Harrogate',524,260],['Leeds',524,269]],sequence:['Leeds','York','Harrogate','Leeds']}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
 function renderBlankMap(route){
  const svgNS='http://www.w3.org/2000/svg';
- routeMapStage.innerHTML='<svg class="north-map" viewBox="0 0 760 500" role="img" aria-label="Schematická mapa trás na severe Anglicka, nie je v mierke"><path class="north-map-land" d="M250 35 C285 52 320 42 345 65 C365 83 390 76 414 95 C442 116 470 104 493 126 C520 150 550 142 568 170 C590 204 622 213 628 248 C635 282 612 305 625 337 C640 371 615 400 585 413 C555 425 534 451 495 447 C459 444 440 466 403 453 C369 441 340 455 309 433 C277 411 246 416 223 390 C198 361 166 355 155 322 C143 288 164 261 151 229 C139 198 165 174 180 149 C197 121 195 87 219 65 Z"/><path class="north-map-coast" d="M250 35 C285 52 320 42 345 65 C365 83 390 76 414 95 C442 116 470 104 493 126 C520 150 550 142 568 170 C590 204 622 213 628 248 C635 282 612 305 625 337 C640 371 615 400 585 413 C555 425 534 451 495 447 C459 444 440 466 403 453 C369 441 340 455 309 433 C277 411 246 416 223 390 C198 361 166 355 155 322 C143 288 164 261 151 229 C139 198 165 174 180 149 C197 121 195 87 219 65 Z"/></svg>';
+ routeMapStage.innerHTML='<svg class="north-map" viewBox="0 0 760 500" role="img" aria-label="Zjednodušený obrys Veľkej Británie s polohou navštívených miest"><path class="north-map-land" d="M386 28 C405 34 419 48 426 66 L448 78 456 101 478 116 480 140 501 161 493 184 513 207 507 230 524 253 518 276 538 298 532 322 550 343 546 365 562 386 552 406 532 418 520 438 493 446 470 440 451 455 426 452 404 466 382 455 357 460 338 446 313 448 295 433 273 428 258 410 239 399 232 378 214 364 221 345 208 326 218 308 205 291 216 271 207 252 218 235 209 215 224 196 218 176 235 159 231 138 248 122 250 101 270 91 278 72 301 68 318 53 344 54 359 37 Z"/><path class="north-map-coast" d="M386 28 C405 34 419 48 426 66 L448 78 456 101 478 116 480 140 501 161 493 184 513 207 507 230 524 253 518 276 538 298 532 322 550 343 546 365 562 386 552 406 532 418 520 438 493 446 470 440 451 455 426 452 404 466 382 455 357 460 338 446 313 448 295 433 273 428 258 410 239 399 232 378 214 364 221 345 208 326 218 308 205 291 216 271 207 252 218 235 209 215 224 196 218 176 235 159 231 138 248 122 250 101 270 91 278 72 301 68 318 53 344 54 359 37 Z"/></svg>';
  const svg=routeMapStage.querySelector('svg');
  const line=document.createElementNS(svgNS,'polyline');
  line.setAttribute('class','north-map-route');
@@ -253,6 +253,14 @@ function renderBlankMap(route){
  const markers=document.createElementNS(svgNS,'g');
  markers.setAttribute('class','north-map-markers');
  svg.appendChild(markers);
+ const labelOffsets={
+  'Manchester':[-12,24,'end'],
+  'Bradford':[-13,-15,'end'],
+  'Leeds':[13,22,'start'],
+  'Liverpool':[-12,-15,'end'],
+  'York':[12,-14,'start'],
+  'Harrogate':[-12,24,'end']
+ };
  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  route.points.forEach((point,index)=>{
   const addMarker=()=>{
@@ -263,7 +271,9 @@ function renderBlankMap(route){
    circle.setAttribute('r','7');
    circle.setAttribute('class','north-map-dot');
    const label=document.createElementNS(svgNS,'text');
-   label.setAttribute('x','12');label.setAttribute('y','-12');
+   const offset=labelOffsets[point[0]]||[12,-12,'start'];
+   label.setAttribute('x',offset[0]);label.setAttribute('y',offset[1]);
+   label.setAttribute('text-anchor',offset[2]);
    label.setAttribute('class','north-map-label');
    label.textContent=point[0];
    group.append(circle,label);markers.appendChild(group);
