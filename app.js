@@ -72,7 +72,7 @@ const chapters = [
 <p>V druhej polovici 20. storočia kontajnerizácia zmenila spôsob nakladania lodí. Náklad, ktorý kedysi vyžadoval veľké tímy robotníkov a dlhé hodiny práce, sa čoraz viac presúval v štandardizovaných kontajneroch pomocou žeriavov a špecializovaných terminálov. Nové prístavy sa presúvali k hlbšej vode a tradičné mestské doky strácali význam. Pre Liverpool to znamenalo úbytok pracovných miest a ďalšiu vlnu hospodárskej neistoty. Premena dokov na kultúrne a obytné priestory zachránila časť historickej architektúry, no nenahradila všetku prácu, ktorá kedysi živila celé štvrte.</p>
 <h3>Rok 1911 – dopravný štrajk, ktorý ochromil Liverpool</h3>
 <p>V lete 1911 sa Liverpool stal dejiskom jednej z najväčších dopravných štrajkových vĺn v britských dejinách. Začala sa medzi námorníkmi a postupne sa rozšírila na prístavných robotníkov, železničiarov, vodičov električiek a ďalšie skupiny, ktorých práca udržiavala mesto v pohybe. Nezastavila doslova každú dopravu, no koordinovaná akcia ochromila prístavné operácie a veľkú časť hospodárskeho života mesta. Štrajkový výbor viedol odborár a socialista Tom Mann.</p>
-<p>Dňa 13. augusta 1911 sa na zhromaždení v centre mesta zišli desaťtisíce ľudí. Zásah polície proti účastníkom sa stal známym ako „Bloody Sunday“. Nasledujúce dni priniesli ďalšie násilie, nasadenie vojska a ostrý konflikt medzi robotníkmi, zamestnávateľmi a štátnou mocou. Štrajk nebol jednoduchým víťazstvom jednej strany, no výrazne posilnil odborové organizovanie v prístave a ukázal, akú silu môže mať koordinovaná akcia ľudí, ktorí dovtedy často pracovali v neistých a navzájom oddelených profesiách.</p>
+<p>Dňa 13. augusta 1911 sa na zhromaždení v centre mesta zišli desaťtisíce ľudí. Zásah polície proti účastníkom sa stal známym ako „Bloody Sunday“. Násilie pokračovalo aj v nasledujúcich dňoch. Dňa 15. augusta, keď sa dav pokúsil oslobodiť zatknutých štrajkujúcich, vojaci v centre Liverpoolu vystrelili do davu; dvaja muži prišli o život. Nasadenie vojska a streľba ukázali, že konflikt medzi robotníkmi, zamestnávateľmi a štátnou mocou mal tragické následky. Štrajk nebol jednoduchým víťazstvom jednej strany, no výrazne posilnil odborové organizovanie v prístave a ukázal, akú silu môže mať koordinovaná akcia ľudí, ktorí dovtedy často pracovali v neistých a navzájom oddelených profesiách.</p>
 <p>Pre dejiny Liverpoolu je táto udalosť dôležitá aj preto, že prepája námorníkov, prístavných robotníkov a železničiarov do jedného príbehu. Mesto nebolo iba bránou, cez ktorú prechádzali tovary. Bolo aj pracoviskom, kde sa ľudia pokúšali vyjednať si podmienky, za ktorých sa tento obchod uskutočňoval.</p>
 <h3>Prístavné mesto počas vojen a kríz</h3>
 <p>Strategická poloha Liverpoolu znamenala, že mesto bolo dôležité aj počas svetových vojen. Počas druhej svetovej vojny bol prístav kľúčovým bodom v bitke o Atlantik. Konvoje privážali potraviny, palivo, suroviny a vojenský materiál, bez ktorých by Británia len ťažko pokračovala vo vojne. Liverpool a okolité doky boli preto terčom intenzívneho bombardovania počas takzvaného May Blitz v prvom májovom týždni 1941. Počas siedmich nocí zahynulo na širšom Merseyside približne 1 700 ľudí; tisíce ďalších prišli o domov a veľká časť mesta bola poškodená. Vojnová skúsenosť ešte viac posilnila význam prístavnej práce a kolektívnej solidarity, ale zanechala aj hlboké jazvy v mestskej zástavbe.</p>
@@ -209,8 +209,6 @@ const routeContinue = document.getElementById('route-continue');
 const routeSkip = document.getElementById('route-skip');
 const routeDayLabel = document.getElementById('route-day-label');
 let routeTimers = [];
-let routeMap = null;
-let routeLayer = null;
 
 const daysView = document.getElementById('days-view');
 const chaptersView = document.getElementById('chapters-view');
@@ -239,9 +237,9 @@ function showWelcome() {
 
 const mapRoutes = {
  '2026-11-26':{title:'Bradford a Leeds',subtitle:'Z Manchestru cez Bradford do Leedsu.',points:[['Manchester',300,340],['Bradford',420,300],['Leeds',470,300]],sequence:['Manchester','Bradford','Leeds']},
- '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',470,300],['Liverpool',150,380]],sequence:['Leeds','Liverpool','Leeds']},
- '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',470,300],['Manchester',300,340]],sequence:['Leeds','Manchester','Leeds']},
- '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',470,300],['York',555,220],['Harrogate',485,245]],sequence:['Leeds','York','Harrogate','Leeds']}
+ '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',470,300],['Liverpool',150,380]],path:[['Leeds',470,300],['Liverpool',150,380],['Leeds',470,300]],sequence:['Leeds','Liverpool','Leeds']},
+ '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',470,300],['Manchester',300,340]],path:[['Leeds',470,300],['Manchester',300,340],['Leeds',470,300]],sequence:['Leeds','Manchester','Leeds']},
+ '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',470,300],['York',555,220],['Harrogate',485,245],['Leeds',470,300]],sequence:['Leeds','York','Harrogate','Leeds']}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
 function renderBlankMap(route){
@@ -250,13 +248,14 @@ function renderBlankMap(route){
  const svg=routeMapStage.querySelector('svg');
  const line=document.createElementNS(svgNS,'polyline');
  line.setAttribute('class','north-map-route');
- line.setAttribute('points',route.points.map(p=>p[1]+','+p[2]).join(' '));
+ line.setAttribute('points',(route.path||route.points).map(p=>p[1]+','+p[2]).join(' '));
  svg.appendChild(line);
  const markers=document.createElementNS(svgNS,'g');
  markers.setAttribute('class','north-map-markers');
  svg.appendChild(markers);
+ const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  route.points.forEach((point,index)=>{
-  routeTimers.push(setTimeout(()=>{
+  const addMarker=()=>{
    const group=document.createElementNS(svgNS,'g');
    group.setAttribute('class','north-map-point');
    group.setAttribute('transform','translate('+point[1]+' '+point[2]+')');
@@ -268,11 +267,17 @@ function renderBlankMap(route){
    label.setAttribute('class','north-map-label');
    label.textContent=point[0];
    group.append(circle,label);markers.appendChild(group);
-   routeTimers.push(setTimeout(()=>group.classList.add('is-visible'),30));
-  },700+index*1050));
+   if(reduceMotion) group.classList.add('is-visible');
+   else routeTimers.push(setTimeout(()=>group.classList.add('is-visible'),30));
+  };
+  if(reduceMotion) addMarker();
+  else routeTimers.push(setTimeout(addMarker,700+index*1050));
  });
- const duration=700+route.points.length*1050+350;
- routeTimers.push(setTimeout(finishRouteIntro,duration));
+ if(reduceMotion) finishRouteIntro();
+ else {
+  const duration=700+route.points.length*1050+350;
+  routeTimers.push(setTimeout(finishRouteIntro,duration));
+ }
 }
 function finishRouteIntro(){
  clearRouteTimers();routeSkip.hidden=true;routeContinue.hidden=false;
@@ -283,6 +288,8 @@ function showRouteIntro(date,route){
  routeDayLabel.textContent=chapters.find(c=>c.date===date)?.dateLabel||'THE NORTH · A JOURNEY';
  routeTitle.textContent=route.title;routeSubtitle.textContent=route.subtitle;
  routeSceneHeading.innerHTML='<span>SEVERNÉ ANGLICKO</span><strong>Miesta dnešnej cesty</strong>';
+ const mapNote=document.getElementById('route-map-note');
+ if(mapNote) mapNote.textContent='Schematická mapa – nie je v mierke.';
  routeSteps.innerHTML='<div class="route-sequence">'+route.sequence.map((name,i)=>'<span>'+String(i+1).padStart(2,'0')+' '+name+'</span>').join('<i aria-hidden="true">→</i>')+'</div>';
  routeContinue.hidden=true;routeSkip.hidden=false;animateView(routeIntroView);
  renderBlankMap(route);
@@ -411,6 +418,7 @@ function openChapter(id) {
 }
 document.getElementById('continue-button').addEventListener('click',showDays);
 routeSkip.addEventListener('click',finishRouteIntro);
+document.getElementById('route-back').addEventListener('click',revealDays);
 routeContinue.addEventListener('click',openSelectedChapter);
 document.getElementById('days-back').addEventListener('click',showWelcome);
 document.getElementById('chapters-back').addEventListener('click',()=>{
