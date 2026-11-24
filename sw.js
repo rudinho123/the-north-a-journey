@@ -1,4 +1,4 @@
-const CACHE_NAME = 'north-journey-v40';
+const CACHE_NAME = 'north-journey-v41';
 const CORE = ['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon.svg','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)));
