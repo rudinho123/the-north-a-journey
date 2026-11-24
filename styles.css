@@ -109,6 +109,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 .geo-map>a:hover{color:var(--accent);border-color:var(--accent)}
 @media(max-width:600px){.geo-map{margin:23px 0 28px}.geo-map iframe{height:205px}.geo-map-heading strong{font-size:18px}}
 
+
 /* Daily animated journey reveal */
 .route-intro-view{max-width:780px;margin:0 auto;padding-top:24px}
 .route-intro-top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:13px;border-bottom:1px solid var(--line)}
@@ -117,19 +118,13 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 .route-kicker{margin:0 0 12px;color:var(--accent);font:600 9px/1.4 var(--sans);letter-spacing:.16em}
 .route-intro-content h1{margin:0;font:500 clamp(42px,7vw,62px)/1.04 var(--serif);letter-spacing:-.04em}
 .route-subtitle{margin:13px 0 30px;color:var(--muted);font:italic clamp(17px,2.4vw,21px)/1.5 var(--serif)}
-.route-map-stage{min-height:260px;transition:opacity .3s ease}
-.route-scene{animation:routeSceneIn .65s ease both}
 .route-scene-heading{display:flex;align-items:baseline;gap:13px;margin:0 0 10px}
 .route-scene-heading span{color:var(--accent);font:700 9px/1.4 var(--sans);letter-spacing:.14em}
 .route-scene-heading strong{font:500 19px/1.3 var(--serif)}
-.route-scene svg{display:block;width:100%;height:auto;max-height:390px;background:#efede6;border:1px solid var(--line)}
-.route-land{fill:#e5e1d7;opacity:.8}.route-water{fill:none;stroke:#c7d2d0;stroke-width:17;opacity:.38}
-.route-line{fill:none;stroke:var(--accent);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:1200;animation:routeDraw 1.25s ease forwards}
-.route-point{opacity:0;animation:routePointIn .45s ease forwards}
-.route-point circle:first-child{fill:var(--paper);stroke:var(--accent);stroke-width:3}
-.route-point-core{fill:var(--ink)}
-.route-point text{fill:var(--ink);font:600 17px var(--sans);paint-order:stroke;stroke:#efede6;stroke-width:5px;stroke-linejoin:round}
-.route-north{fill:#8b8a82;font:600 10px var(--sans);letter-spacing:2px;text-anchor:end}
+.route-map-stage{width:100%;height:350px;background:#e9e6dd;border:1px solid var(--line);z-index:0}
+.route-map-label{border:0!important;background:#f3f0e8!important;border-radius:2px!important;box-shadow:0 1px 5px #17263820!important;color:#172638!important;font:600 11px var(--sans)!important;padding:3px 6px!important}
+.route-map-label:before{display:none!important}
+.route-map-line{stroke-dasharray:8 10;stroke-dashoffset:500;animation:routeLeafletDraw 2s ease forwards}
 .route-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:17px 0 0}
 .route-step{display:flex;align-items:center;gap:10px;padding:11px 12px;border-top:1px solid var(--line);opacity:0;animation:routePointIn .5s ease forwards}
 .route-step-number{color:var(--accent);font:500 18px var(--serif)}
@@ -137,9 +132,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 .route-step strong{font:500 12px/1.4 var(--sans)}
 .route-step small{margin-top:3px;color:var(--muted);font:500 9px/1.4 var(--sans);text-transform:uppercase;letter-spacing:.08em}
 .route-continue{margin-top:24px}
-.route-scene-transition{opacity:0;transition:opacity .3s ease}
-@keyframes routeDraw{to{stroke-dashoffset:0}}
+@keyframes routeLeafletDraw{to{stroke-dashoffset:0}}
 @keyframes routePointIn{to{opacity:1;transform:translateY(0)}}
-@keyframes routeSceneIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:600px){.route-intro-view{padding-top:18px}.route-intro-content{padding-top:34px}.route-map-stage{min-height:190px}.route-scene-heading strong{font-size:17px}.route-point text{font-size:19px}.route-steps{grid-template-columns:1fr 1fr;gap:4px}.route-step{padding:9px 4px}.route-step strong{font-size:11px}}
-@media(prefers-reduced-motion:reduce){.route-line,.route-point,.route-step,.route-scene{animation:none!important;opacity:1!important;stroke-dashoffset:0!important}}
+@media(max-width:600px){.route-intro-view{padding-top:18px}.route-intro-content{padding-top:34px}.route-map-stage{height:290px}.route-scene-heading strong{font-size:17px}.route-steps{grid-template-columns:1fr 1fr;gap:4px}.route-step{padding:9px 4px}.route-step strong{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.route-map-line,.route-step{animation:none!important;opacity:1!important;stroke-dashoffset:0!important}}
