@@ -237,70 +237,41 @@ function showWelcome() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-const dailyRoutes = {
- '2026-11-26':{title:'Cesta na sever',subtitle:'Z Bratislavy cez Manchester až do Yorkshire.',scenes:[
-  {title:'Naprieč Európou',mode:'LETECKY',stepIndices:[0],points:[{name:'Bratislava',lat:48.17,lng:17.21},{name:'Manchester',lat:53.35,lng:-2.27}],legs:[[0,1]],zoom:5},
-  {title:'Z letiska do Yorkshire',mode:'VLAKOM',stepIndices:[1,2],points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bradford',lat:53.795,lng:-1.759},{name:'Leeds',lat:53.8008,lng:-1.5491}],legs:[[0,1],[1,2]],zoom:9}
- ],steps:[['Bratislava','Manchester','Lietadlom'],['Manchester','Bradford','Vlakom'],['Bradford','Leeds','Vlakom']]},
- '2026-11-27':{title:'Výprava na západ',subtitle:'Zo Yorkshire k rieke Mersey a späť.',scenes:[
-  {title:'Medzi Yorkshire a Merseyside',mode:'VLAKOM',stepIndices:[0,1],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Liverpool',lat:53.4084,lng:-2.9916}],legs:[[0,1],[1,0]],zoom:8}
- ],steps:[['Leeds','Liverpool','Vlakom'],['Liverpool','Leeds','Vlakom']]},
- '2026-11-28':{title:'Výprava do Manchestru',subtitle:'Z Leedsu do Manchestru na zápas a späť.',scenes:[
-  {title:'Leeds a Manchester',mode:'VLAKOM',stepIndices:[0,1],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.48,lng:-2.24}],legs:[[0,1],[1,0]],zoom:9}
- ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Leeds','Vlakom']]},
- '2026-11-29':{title:'Srdce Yorkshire',subtitle:'Deň medzi historickými mestami a trhovými mestečkami.',scenes:[
-  {title:'Yorkshire',mode:'VLAKOM',stepIndices:[0,1,2],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'York',lat:53.959,lng:-1.0815},{name:'Harrogate',lat:53.9921,lng:-1.541}],legs:[[0,1],[1,2],[2,0]],zoom:9}
- ],steps:[['Leeds','York','Vlakom'],['York','Harrogate','Vlakom'],['Harrogate','Leeds','Vlakom']]},
- '2026-11-30':{title:'Cesta domov',subtitle:'Z Leedsu cez Manchester späť do Bratislavy.',scenes:[
-  {title:'Z Leedsu do Manchestru',mode:'VLAKOM',stepIndices:[0],points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.365,lng:-2.272}],legs:[[0,1]],zoom:9},
-  {title:'Späť na Slovensko',mode:'LETECKY',stepIndices:[1],points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bratislava',lat:48.17,lng:17.21}],legs:[[0,1]],zoom:5}
- ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Bratislava','Lietadlom']]}
+const mapRoutes = {
+ '2026-11-26':{title:'Bradford a Leeds',subtitle:'Z Manchestru cez Bradford do Leedsu.',points:[['Manchester',300,340],['Bradford',420,300],['Leeds',470,300]],sequence:['Manchester','Bradford','Leeds']},
+ '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',470,300],['Liverpool',150,380]],sequence:['Leeds','Liverpool','Leeds']},
+ '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',470,300],['Manchester',300,340]],sequence:['Leeds','Manchester','Leeds']},
+ '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',470,300],['York',555,220],['Harrogate',485,245]],sequence:['Leeds','York','Harrogate','Leeds']}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
-function ensureRouteMap(){
- if(!window.L)return false;
- if(!routeMap){
-  routeMap=L.map(routeMapStage,{zoomControl:false,scrollWheelZoom:false,attributionControl:true}).setView([53.7,-1.9],7);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}).addTo(routeMap);
-  routeLayer=L.layerGroup().addTo(routeMap);
- }
- return true;
-}
-function renderRouteScene(route,index){
- const scene=route.scenes[index];
- if(!ensureRouteMap()){
-  routeSceneHeading.textContent='Mapa nie je dostupná';
-  routeSteps.innerHTML='<p class="route-step">Animovaná mapa sa nepodarila načítať.</p>';
-  return;
- }
- routeMapStage.classList.remove('route-scene-transition');
- routeSceneHeading.innerHTML='<span>'+scene.mode+'</span><strong>'+scene.title+'</strong>';
- routeMap.invalidateSize(true);
- routeLayer.clearLayers();
- const bounds=L.latLngBounds(scene.points.map(p=>[p.lat,p.lng]));
- routeMap.flyToBounds(bounds.pad(scene.zoom===5?0.42:0.65),{duration:1.2,maxZoom:scene.zoom});
- const visibleSteps=(scene.stepIndices||route.steps.map((_,i)=>i)).map(i=>route.steps[i]).filter(Boolean);
- routeSteps.innerHTML=visibleSteps.map((step,i)=>'<div class="route-step route-step-active" style="animation-delay:'+(0.15+i*0.25)+'s"><span class="route-step-number">'+String((scene.stepIndices||[])[i]+1||i+1).padStart(2,'0')+'</span><span><strong>'+step[0]+' → '+step[1]+'</strong><small>'+step[2]+'</small></span></div>').join('');
- scene.points.forEach(p=>{
-  const marker=L.circleMarker([p.lat,p.lng],{radius:7,color:'#b77a58',weight:2.5,fillColor:'#f3f0e8',fillOpacity:1}).bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-9],className:'route-map-label'});
-  routeLayer.addLayer(marker);
- });
- scene.legs.forEach((leg,i)=>{
+function renderBlankMap(route){
+ const svgNS='http://www.w3.org/2000/svg';
+ routeMapStage.innerHTML='<svg class="north-map" viewBox="0 0 760 500" role="img" aria-label="Slepá mapa severného Anglicka"><path class="north-map-land" d="M250 35 C285 52 320 42 345 65 C365 83 390 76 414 95 C442 116 470 104 493 126 C520 150 550 142 568 170 C590 204 622 213 628 248 C635 282 612 305 625 337 C640 371 615 400 585 413 C555 425 534 451 495 447 C459 444 440 466 403 453 C369 441 340 455 309 433 C277 411 246 416 223 390 C198 361 166 355 155 322 C143 288 164 261 151 229 C139 198 165 174 180 149 C197 121 195 87 219 65 Z"/><path class="north-map-coast" d="M250 35 C285 52 320 42 345 65 C365 83 390 76 414 95 C442 116 470 104 493 126 C520 150 550 142 568 170 C590 204 622 213 628 248 C635 282 612 305 625 337 C640 371 615 400 585 413 C555 425 534 451 495 447 C459 444 440 466 403 453 C369 441 340 455 309 433 C277 411 246 416 223 390 C198 361 166 355 155 322 C143 288 164 261 151 229 C139 198 165 174 180 149 C197 121 195 87 219 65 Z"/></svg>';
+ const svg=routeMapStage.querySelector('svg');
+ const line=document.createElementNS(svgNS,'polyline');
+ line.setAttribute('class','north-map-route');
+ line.setAttribute('points',route.points.map(p=>p[1]+','+p[2]).join(' '));
+ svg.appendChild(line);
+ const markers=document.createElementNS(svgNS,'g');
+ markers.setAttribute('class','north-map-markers');
+ svg.appendChild(markers);
+ route.points.forEach((point,index)=>{
   routeTimers.push(setTimeout(()=>{
-   const a=scene.points[leg[0]],b=scene.points[leg[1]];
-   const line=L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:'#b77a58',weight:4,opacity:0.95,lineCap:'round'}).addTo(routeLayer);
-   const icon=L.divIcon({className:'route-moving-icon',html:scene.mode==='LETECKY'?'✈':'🚆',iconSize:[38,38],iconAnchor:[19,19]});
-   const moving=L.marker([a.lat,a.lng],{icon,interactive:false,zIndexOffset:1000}).addTo(routeLayer);
-   const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-   const frames=reduceMotion?1:90,duration=reduceMotion?0:2600;
-   for(let frame=1;frame<=frames;frame++){
-    routeTimers.push(setTimeout(()=>{
-     const t=frame/frames;
-     moving.setLatLng([a.lat+(b.lat-a.lat)*t,a.lng+(b.lng-a.lng)*t]);
-    },frame*(duration/frames)));
-   }
-  },650+i*2900));
+   const group=document.createElementNS(svgNS,'g');
+   group.setAttribute('class','north-map-point is-visible');
+   group.setAttribute('transform','translate('+point[1]+' '+point[2]+')');
+   const circle=document.createElementNS(svgNS,'circle');
+   circle.setAttribute('r','7');
+   circle.setAttribute('class','north-map-dot');
+   const label=document.createElementNS(svgNS,'text');
+   label.setAttribute('x','12');label.setAttribute('y','-12');
+   label.setAttribute('class','north-map-label');
+   label.textContent=point[0];
+   group.append(circle,label);markers.appendChild(group);
+  },700+index*1050));
  });
+ const duration=700+route.points.length*1050+350;
+ routeTimers.push(setTimeout(finishRouteIntro,duration));
 }
 function finishRouteIntro(){
  clearRouteTimers();routeSkip.hidden=true;routeContinue.hidden=false;
@@ -310,57 +281,37 @@ function showRouteIntro(date,route){
  welcomeView.hidden=true;daysView.hidden=true;chaptersView.hidden=true;panel.hidden=true;routeIntroView.hidden=false;
  routeDayLabel.textContent=chapters.find(c=>c.date===date)?.dateLabel||'THE NORTH · A JOURNEY';
  routeTitle.textContent=route.title;routeSubtitle.textContent=route.subtitle;
+ routeSceneHeading.innerHTML='<span>SEVERNÉ ANGLICKO</span><strong>Miesta dnešnej cesty</strong>';
+ routeSteps.innerHTML='<div class="route-sequence">'+route.sequence.map((name,i)=>'<span>'+String(i+1).padStart(2,'0')+' '+name+'</span>').join('<i aria-hidden="true">→</i>')+'</div>';
  routeContinue.hidden=true;routeSkip.hidden=false;animateView(routeIntroView);
- let elapsed=0;
- route.scenes.forEach((scene,index)=>{
-  routeTimers.push(setTimeout(()=>renderRouteScene(route,index),elapsed));
-  elapsed+=scene.legs.length*2.9+1.35;
-  if(index<route.scenes.length-1)routeTimers.push(setTimeout(()=>{routeMapStage.classList.add('route-scene-transition');},elapsed-0.35));
- });
- routeTimers.push(setTimeout(finishRouteIntro,elapsed+0.25));
+ renderBlankMap(route);
 }
-function openDailyRoute(){
- const params=new URLSearchParams(location.search);
- const date=params.get('route')&&params.get('preview')==='1'?params.get('route'):(previewMode?'2026-11-26':ukDate);
- const route=dailyRoutes[date];
- if(route){showRouteIntro(date,route);return true;}
- return false;
+function openSelectedChapter(){
+ const chapter=chapters.find(c=>c.date===currentDate&&isUnlocked(c));
+ if(chapter)openChapter(chapter.id);
 }
 function revealDays(){
+ clearRouteTimers();
  routeIntroView.hidden=true;welcomeView.hidden=true;chaptersView.hidden=true;panel.hidden=true;daysView.hidden=false;animateView(daysView);
  const available=groupDays().filter(([,items])=>items.some(isUnlocked));
  if(!available.length){
   const next=groupDays().find(([,items])=>!items.some(isUnlocked));
-  const dateText=next?next[1][0].dateLabel.replace(/^[^·]+·\s*/,''):'';
+  const dateText=next?next[1][0].dateLabel.replace(/^[^·]+·\\s*/,''):'';
   daysList.innerHTML='<p class="empty-note">Ďalší deň sa otvorí '+dateText+'.</p>';return;
  }
  daysList.innerHTML=available.map(([date,items],i)=>{
-  const c=items[0];
-  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+c.title+'</span><span class="day-date">'+c.dateLabel.replace(/^[^·]+·\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
+  const chapter=items[0];
+  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+chapter.title+'</span><span class="day-date">'+chapter.dateLabel.replace(/^[^·]+·\\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
  }).join('');
  daysList.querySelectorAll('.day-row').forEach(el=>el.addEventListener('click',()=>showDay(el.dataset.date)));
 }
-
-function showDays() { if(openDailyRoute()) return; revealDays(); }
-function showDay(date) {
-  currentDate = date;
-  const items = chapters.filter(c=>c.date===date && isUnlocked(c));
-  if (!items.length) return;
-  routeIntroView.hidden = true;
-  daysView.hidden = true;
-  panel.hidden = true;
-  chaptersView.hidden = false;
-  animateView(chaptersView);
-  document.getElementById('day-heading').textContent = items[0].dateLabel;
-  dayChapters.innerHTML = items.map(c => `
-    <button class="chapter-row" type="button" data-id="${c.id}">
-      <span class="chapter-index">${c.number}</span>
-      <span class="chapter-name">${c.title}</span>
-      <span class="chapter-arrow" aria-hidden="true">→</span>
-    </button>`).join('');
-  dayChapters.querySelectorAll('.chapter-row').forEach(el =>
-    el.addEventListener('click',()=>openChapter(el.dataset.id))
-  );
+function showDays(){revealDays();}
+function showDay(date){
+ currentDate=date;
+ const chapter=chapters.find(c=>c.date===date&&isUnlocked(c));
+ const route=mapRoutes[date];
+ if(!chapter||!route)return;
+ showRouteIntro(date,route);
 }
 function animateView(view) {
   view.classList.remove('view-enter');
@@ -459,7 +410,7 @@ function openChapter(id) {
 }
 document.getElementById('continue-button').addEventListener('click',showDays);
 routeSkip.addEventListener('click',finishRouteIntro);
-routeContinue.addEventListener('click',revealDays);
+routeContinue.addEventListener('click',openSelectedChapter);
 document.getElementById('days-back').addEventListener('click',showWelcome);
 document.getElementById('chapters-back').addEventListener('click',()=>{
   chaptersView.hidden = true;
@@ -468,8 +419,8 @@ document.getElementById('chapters-back').addEventListener('click',()=>{
   window.scrollTo({top:0,behavior:'smooth'});
 });
 document.getElementById('back-button').addEventListener('click',()=>{
-  panel.hidden = true;
-  showDay(currentDate);
+  const route=mapRoutes[currentDate];
+  if(route)showRouteIntro(currentDate,route);
   window.scrollTo({top:0,behavior:'smooth'});
 });
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
