@@ -159,3 +159,7 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 .route-intro-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:flex-end}
 .route-map-note{margin:8px 0 0;color:var(--muted);font:500 10px/1.5 var(--sans);letter-spacing:.02em}
 @media(max-width:600px){.route-intro-actions{gap:10px}.route-intro-actions .back-link{font-size:9px}}
+
+/* Map reveal: show only the animated map, then Continue. */
+.route-intro-view{padding-top:0}.route-map-only{padding:0 0 24px}.route-map-only .route-map-stage{height:min(68vh,620px);min-height:290px}.route-map-only .route-continue{margin-top:24px}
+@media(max-width:600px){.route-intro-view{padding-top:0}.route-map-only .route-map-stage{height: min(68vh,620px);min-height:290px}}
