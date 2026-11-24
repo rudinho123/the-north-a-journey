@@ -203,6 +203,7 @@ const routeIntroView = document.getElementById('route-intro-view');
 const routeTitle = document.getElementById('route-title');
 const routeSubtitle = document.getElementById('route-subtitle');
 const routeMapStage = document.getElementById('route-map-stage');
+const routeSceneHeading = document.getElementById('route-scene-heading');
 const routeSteps = document.getElementById('route-steps');
 const routeContinue = document.getElementById('route-continue');
 const routeSkip = document.getElementById('route-skip');
@@ -259,16 +260,15 @@ function ensureRouteMap(){
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}).addTo(routeMap);
   routeLayer=L.layerGroup().addTo(routeMap);
  }
- routeMapStage.innerHTML='';
  return true;
 }
 function renderRouteScene(route,index){
  const scene=route.scenes[index];
- routeMapStage.innerHTML='';
  if(!ensureRouteMap()){
-  routeMapStage.innerHTML='<div class="route-map-fallback">Mapa sa nepodarila načítať. <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">Otvoriť OpenStreetMap</a></div>';
+  routeSceneHeading.textContent='Mapa nie je dostupná';
   return;
  }
+ routeSceneHeading.innerHTML='<span>'+scene.mode+'</span><strong>'+scene.title+'</strong>';
  routeMap.invalidateSize();
  routeLayer.clearLayers();
  const bounds=L.latLngBounds(scene.points.map(p=>[p.lat,p.lng]));
