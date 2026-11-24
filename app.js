@@ -248,9 +248,10 @@ const dailyRoutes = {
  '2026-11-28':{title:'Srdce Yorkshire',subtitle:'Deň medzi historickými mestami a trhovými mestečkami.',scenes:[
   {title:'Yorkshire',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'York',lat:53.959,lng:-1.0815},{name:'Harrogate',lat:53.9921,lng:-1.541}],legs:[[0,1],[1,2],[2,0]],zoom:9}
  ],steps:[['Leeds','York','Vlakom'],['York','Harrogate','Vlakom'],['Harrogate','Leeds','Vlakom']]},
- '2026-11-29':{title:'Späť do Manchestru',subtitle:'Z Yorkshire do jedného z najznámejších futbalových miest Anglicka.',scenes:[
-  {title:'Leeds a Manchester',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.48,lng:-2.24}],legs:[[0,1],[1,0]],zoom:9}
- ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Leeds','Vlakom']]}
+ '2026-11-29':{title:'Cesta domov',subtitle:'Z Leedsu cez Manchester späť do Bratislavy.',scenes:[
+  {title:'Z Leedsu do Manchestru',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.365,lng:-2.272}],legs:[[0,1]],zoom:9},
+  {title:'Späť na Slovensko',mode:'LETECKY',points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bratislava',lat:48.17,lng:17.21}],legs:[[0,1]],zoom:5}
+ ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Bratislava','Lietadlom']]}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
 function ensureRouteMap(){
