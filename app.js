@@ -199,6 +199,16 @@ const previewMode = new URLSearchParams(location.search).get('preview') === '1';
 const isUnlocked = c => previewMode || ukDate >= c.date;
 
 const welcomeView = document.getElementById('welcome-view');
+const routeIntroView = document.getElementById('route-intro-view');
+const routeTitle = document.getElementById('route-title');
+const routeSubtitle = document.getElementById('route-subtitle');
+const routeMapStage = document.getElementById('route-map-stage');
+const routeSteps = document.getElementById('route-steps');
+const routeContinue = document.getElementById('route-continue');
+const routeSkip = document.getElementById('route-skip');
+const routeDayLabel = document.getElementById('route-day-label');
+let routeTimers = [];
+
 const daysView = document.getElementById('days-view');
 const chaptersView = document.getElementById('chapters-view');
 const panel = document.getElementById('reading-panel');
@@ -218,11 +228,84 @@ function showWelcome() {
   daysView.hidden = true;
   chaptersView.hidden = true;
   panel.hidden = true;
+  routeIntroView.hidden = true;
   welcomeView.hidden = false;
   animateView(welcomeView);
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+const dailyRoutes = {
+ '2026-11-26':{title:'Cesta na sever',subtitle:'Z Bratislavy cez Manchester až do Yorkshire.',scenes:[
+  {title:'Naprieč Európou',mode:'LETECKY',points:[{name:'Bratislava',x:755,y:310,anchor:'end'},{name:'Manchester',x:235,y:175,anchor:'start'}],legs:[{d:'M755 310 Q485 35 235 175'}]},
+  {title:'Z letiska do Yorkshire',mode:'VLAKOM',points:[{name:'Manchester',x:145,y:285,anchor:'middle'},{name:'Bradford',x:430,y:155,anchor:'middle'},{name:'Leeds',x:555,y:220,anchor:'middle'}],legs:[{d:'M145 285 Q285 215 430 155'},{d:'M430 155 Q500 145 555 220'}]}
+ ],steps:[['Bratislava','Manchester','Lietadlom'],['Manchester','Bradford','Vlakom'],['Bradford','Leeds','Vlakom']]},
+ '2026-11-27':{title:'Výprava na západ',subtitle:'Zo Yorkshire k rieke Mersey a späť.',scenes:[
+  {title:'Medzi Yorkshire a Merseyside',mode:'VLAKOM',points:[{name:'Leeds',x:570,y:185,anchor:'end'},{name:'Liverpool',x:165,y:260,anchor:'start'}],legs:[{d:'M570 185 Q365 65 165 260'},{d:'M165 260 Q365 420 570 185'}]}
+ ],steps:[['Leeds','Liverpool','Vlakom'],['Liverpool','Leeds','Vlakom']]},
+ '2026-11-28':{title:'Srdce Yorkshire',subtitle:'Deň medzi historickými mestami a trhovými mestečkami.',scenes:[
+  {title:'Yorkshire',mode:'VLAKOM',points:[{name:'Leeds',x:390,y:300,anchor:'end'},{name:'York',x:560,y:115,anchor:'start'},{name:'Harrogate',x:265,y:150,anchor:'end'}],legs:[{d:'M390 300 Q520 245 560 115'},{d:'M560 115 Q430 35 265 150'},{d:'M265 150 Q180 290 390 300'}]}
+ ],steps:[['Leeds','York','Vlakom'],['York','Harrogate','Vlakom'],['Harrogate','Leeds','Vlakom']]},
+ '2026-11-29':{title:'Späť do Manchestru',subtitle:'Z Yorkshire do jedného z najznámejších futbalových miest Anglicka.',scenes:[
+  {title:'Leeds a Manchester',mode:'VLAKOM',points:[{name:'Leeds',x:570,y:185,anchor:'end'},{name:'Manchester',x:165,y:270,anchor:'start'}],legs:[{d:'M570 185 Q365 65 165 270'},{d:'M165 270 Q365 420 570 185'}]}
+ ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Leeds','Vlakom']]}
+};
+function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
+function buildRouteScene(scene,index){
+ const paths=scene.legs.map((leg,i)=>'<path class="route-line route-line-'+i+'" d="'+leg.d+'" style="animation-delay:'+(0.45+i*1.45)+'s"/>').join('');
+ const markers=scene.points.map((p,i)=>'<g class="route-point route-point-'+i+'" style="animation-delay:'+(0.5+i*1.45)+'s"><circle cx="'+p.x+'" cy="'+p.y+'" r="7"/><circle class="route-point-core" cx="'+p.x+'" cy="'+p.y+'" r="2.5"/><text x="'+p.x+'" y="'+(p.y+(p.y<190?-18:28))+'" text-anchor="'+(p.anchor||'middle')+'">'+p.name+'</text></g>').join('');
+ return '<div class="route-scene"><div class="route-scene-heading"><span>'+scene.mode+'</span><strong>'+scene.title+'</strong></div><svg viewBox="0 0 800 430" role="img" aria-label="'+scene.points.map(p=>p.name).join(' – ')+'"><defs><pattern id="route-grid-'+index+'" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M 34 0 L 0 0 0 34" fill="none" stroke="#dedbd2" stroke-width=".7"/></pattern></defs><rect width="800" height="430" fill="url(#route-grid-'+index+')"/><path class="route-land" d="M0 325 Q120 285 180 315 T360 290 T550 310 T800 260 L800 430 L0 430Z"/><path class="route-water" d="M0 65 Q130 100 205 80 T390 95 T600 60 T800 85"/><g class="route-paths">'+paths+'</g>'+markers+'<text class="route-north" x="760" y="38">SEVER ↑</text></svg></div>';
+}
+function renderRouteScene(route,index){
+ const scene=route.scenes[index];
+ routeMapStage.innerHTML=buildRouteScene(scene,index);
+ routeSteps.innerHTML=route.steps.map((step,i)=>'<div class="route-step" style="animation-delay:'+(0.7+i*1.35)+'s"><span class="route-step-number">'+String(i+1).padStart(2,'0')+'</span><span><strong>'+step[0]+' → '+step[1]+'</strong><small>'+step[2]+'</small></span></div>').join('');
+ routeMapStage.classList.remove('route-scene-transition');
+ void routeMapStage.offsetWidth;
+}
+function finishRouteIntro(){
+ clearRouteTimers();routeSkip.hidden=true;routeContinue.hidden=false;
+}
+function showRouteIntro(date,route){
+ clearRouteTimers();
+ welcomeView.hidden=true;daysView.hidden=true;chaptersView.hidden=true;panel.hidden=true;routeIntroView.hidden=false;
+ routeDayLabel.textContent=chapters.find(c=>c.date===date)?.dateLabel||'THE NORTH · A JOURNEY';
+ routeTitle.textContent=route.title;routeSubtitle.textContent=route.subtitle;
+ routeContinue.hidden=true;routeSkip.hidden=false;animateView(routeIntroView);
+ let elapsed=0;
+ route.scenes.forEach((scene,index)=>{
+  routeTimers.push(setTimeout(()=>renderRouteScene(route,index),elapsed));
+  elapsed+=scene.legs.length*1.45+2.15;
+  if(index<route.scenes.length-1)routeTimers.push(setTimeout(()=>{routeMapStage.classList.add('route-scene-transition');},elapsed-0.35));
+ });
+ routeTimers.push(setTimeout(finishRouteIntro,elapsed+0.25));
+}
+function openDailyRoute(){
+ const params=new URLSearchParams(location.search);
+ const date=params.get('route')&&params.get('preview')==='1'?params.get('route'):(previewMode?'2026-11-26':ukDate);
+ const route=dailyRoutes[date];
+ if(route){showRouteIntro(date,route);return true;}
+ return false;
+}
+function revealDays(){
+ routeIntroView.hidden=true;welcomeView.hidden=true;chaptersView.hidden=true;panel.hidden=true;daysView.hidden=false;animateView(daysView);
+ const available=groupDays().filter(([,items])=>items.some(isUnlocked));
+ if(!available.length){
+  const next=groupDays().find(([,items])=>!items.some(isUnlocked));
+  const dateText=next?next[1][0].dateLabel.replace(/^[^·]+·\\s*/,''):'';
+  daysList.innerHTML='<p class="empty-note">Ďalší deň sa otvorí '+dateText+'.</p>';return;
+ }
+ daysList.innerHTML=available.map(([date,items],i)=>{
+  const c=items[0];
+  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+c.title+'</span><span class="day-date">'+c.dateLabel.replace(/^[^·]+·\\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
+ }).join('');
+ daysList.querySelectorAll('.day-row').forEach(el=>el.addEventListener('click',()=>showDay(el.dataset.date)));
+}
+
 function showDays() {
+  if(openDailyRoute()) return;
+  revealDays();
+  return;
+/* original implementation retained below */
   welcomeView.hidden = true;
   chaptersView.hidden = true;
   panel.hidden = true;
@@ -247,10 +330,12 @@ function showDays() {
     el.addEventListener('click',()=>showDay(el.dataset.date))
   );
 }
+*/
 function showDay(date) {
   currentDate = date;
   const items = chapters.filter(c=>c.date===date && isUnlocked(c));
   if (!items.length) return;
+  routeIntroView.hidden = true;
   daysView.hidden = true;
   panel.hidden = true;
   chaptersView.hidden = false;
@@ -354,6 +439,7 @@ function openChapter(id) {
   document.getElementById('reading-visual').innerHTML = '';
   document.getElementById('reading-curiosity').textContent = c.curiosity;
   welcomeView.hidden = true;
+  routeIntroView.hidden = true;
   daysView.hidden = true;
   chaptersView.hidden = true;
   panel.hidden = false;
@@ -361,6 +447,8 @@ function openChapter(id) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.getElementById('continue-button').addEventListener('click',showDays);
+routeSkip.addEventListener('click',finishRouteIntro);
+routeContinue.addEventListener('click',revealDays);
 document.getElementById('days-back').addEventListener('click',showWelcome);
 document.getElementById('chapters-back').addEventListener('click',()=>{
   chaptersView.hidden = true;
