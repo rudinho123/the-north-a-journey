@@ -291,46 +291,17 @@ function revealDays(){
  const available=groupDays().filter(([,items])=>items.some(isUnlocked));
  if(!available.length){
   const next=groupDays().find(([,items])=>!items.some(isUnlocked));
-  const dateText=next?next[1][0].dateLabel.replace(/^[^·]+·\\s*/,''):'';
+  const dateText=next?next[1][0].dateLabel.replace(/^[^·]+·\s*/,''):'';
   daysList.innerHTML='<p class="empty-note">Ďalší deň sa otvorí '+dateText+'.</p>';return;
  }
  daysList.innerHTML=available.map(([date,items],i)=>{
   const c=items[0];
-  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+c.title+'</span><span class="day-date">'+c.dateLabel.replace(/^[^·]+·\\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
+  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+c.title+'</span><span class="day-date">'+c.dateLabel.replace(/^[^·]+·\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
  }).join('');
  daysList.querySelectorAll('.day-row').forEach(el=>el.addEventListener('click',()=>showDay(el.dataset.date)));
 }
 
-function showDays() {
-  if(openDailyRoute()) return;
-  revealDays();
-  return;
-/* original implementation retained below */
-  welcomeView.hidden = true;
-  chaptersView.hidden = true;
-  panel.hidden = true;
-  daysView.hidden = false;
-  animateView(daysView);
-  const available = groupDays().filter(([,items]) => items.some(isUnlocked));
-  if (!available.length) {
-    const next = groupDays().find(([,items]) => !items.some(isUnlocked));
-    const dateText = next ? next[1][0].dateLabel.replace(/^[^·]+·\s*/, '') : '';
-    daysList.innerHTML = `<p class="empty-note">Ďalší deň sa otvorí ${dateText}.</p>`;
-    return;
-  }
-  daysList.innerHTML = available.map(([date,items],i) => {
-    const c = items[0];
-    return `<button class="day-row" type="button" data-date="${date}">
-      <span class="day-index">${String(i+1).padStart(2,'0')}</span>
-      <span class="day-meta"><span class="day-name">${c.title}</span><span class="day-date">${c.dateLabel.replace(/^[^·]+·\s*/, '')}</span></span>
-      <span class="day-arrow" aria-hidden="true">→</span>
-    </button>`;
-  }).join('');
-  daysList.querySelectorAll('.day-row').forEach(el =>
-    el.addEventListener('click',()=>showDay(el.dataset.date))
-  );
-}
-*/
+function showDays() { if(openDailyRoute()) return; revealDays(); }
 function showDay(date) {
   currentDate = date;
   const items = chapters.filter(c=>c.date===date && isUnlocked(c));
