@@ -240,7 +240,7 @@ function showWelcome() {
 const dailyRoutes = {
  '2026-11-26':{title:'Cesta na sever',subtitle:'Z Bratislavy cez Manchester až do Yorkshire.',scenes:[
   {title:'Naprieč Európou',mode:'LETECKY',points:[{name:'Bratislava',lat:48.17,lng:17.21},{name:'Manchester',lat:53.35,lng:-2.27}],legs:[[0,1]],zoom:5},
-  {title:'Z letiska do Yorkshire',mode:'VLAKOM',points:[{name:'Manchester',lat:53.48,lng:-2.24},{name:'Bradford',lat:53.795,lng:-1.759},{name:'Leeds',lat:53.8008,lng:-1.5491}],legs:[[0,1],[1,2]],zoom:9}
+  {title:'Z letiska do Yorkshire',mode:'VLAKOM',points:[{name:'Manchester',lat:53.365,lng:-2.272},{name:'Bradford',lat:53.795,lng:-1.759},{name:'Leeds',lat:53.8008,lng:-1.5491}],legs:[[0,1],[1,2]],zoom:9}
  ],steps:[['Bratislava','Manchester','Lietadlom'],['Manchester','Bradford','Vlakom'],['Bradford','Leeds','Vlakom']]},
  '2026-11-27':{title:'Výprava na západ',subtitle:'Zo Yorkshire k rieke Mersey a späť.',scenes:[
   {title:'Medzi Yorkshire a Merseyside',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Liverpool',lat:53.4084,lng:-2.9916}],legs:[[0,1],[1,0]],zoom:8}
@@ -249,7 +249,7 @@ const dailyRoutes = {
   {title:'Yorkshire',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'York',lat:53.959,lng:-1.0815},{name:'Harrogate',lat:53.9921,lng:-1.541}],legs:[[0,1],[1,2],[2,0]],zoom:9}
  ],steps:[['Leeds','York','Vlakom'],['York','Harrogate','Vlakom'],['Harrogate','Leeds','Vlakom']]},
  '2026-11-29':{title:'Manchester a späť do Leedsu',subtitle:'Z Leedsu do Manchestru a späť do Yorkshire.',scenes:[
-  {title:'Leeds a Manchester',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.365,lng:-2.272}],legs:[[0,1],[1,0]],zoom:9}
+  {title:'Leeds a Manchester',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.48,lng:-2.24}],legs:[[0,1],[1,0]],zoom:9}
  ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Leeds','Vlakom']]},
  '2026-11-30':{title:'Cesta domov',subtitle:'Z Leedsu cez Manchester späť do Bratislavy.',scenes:[
   {title:'Z Leedsu do Manchestru',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.365,lng:-2.272}],legs:[[0,1]],zoom:9},
