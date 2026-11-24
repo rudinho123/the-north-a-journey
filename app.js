@@ -239,7 +239,7 @@ const mapRoutes = {
  '2026-11-26':{title:'Bradford a Leeds',subtitle:'Z Manchestru cez Bradford do Leedsu.',points:[['Manchester',374,309],['Bradford',390,294],['Leeds',400,291]],sequence:['Manchester','Bradford','Leeds']},
  '2026-11-27':{title:'Liverpool',subtitle:'Z Leedsu na západ k rieke Mersey a späť.',points:[['Leeds',400,291],['Liverpool',349,311]],path:[['Leeds',400,291],['Liverpool',349,311],['Leeds',400,291]],sequence:['Leeds','Liverpool','Leeds']},
  '2026-11-28':{title:'Manchester',subtitle:'Z Leedsu do Manchestru na futbalový zápas.',points:[['Leeds',400,291],['Manchester',374,309]],path:[['Leeds',400,291],['Manchester',374,309],['Leeds',400,291]],sequence:['Leeds','Manchester','Leeds']},
- '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',400,291],['York',418,279],['Harrogate',401,278]],path:[['Leeds',400,291],['York',418,279],['Harrogate',401,278],['Leeds',400,291]],sequence:['Leeds','York','Harrogate','Leeds']}
+ '2026-11-29':{title:'York a Yorkshire',subtitle:'Z Leedsu do historického Yorku a kúpeľného Harrogate.',points:[['Leeds',400,291],['York',418,279],['Harrogate',398,283]],path:[['Leeds',400,291],['York',418,279],['Harrogate',398,283],['Leeds',400,291]],sequence:['Leeds','York','Harrogate','Leeds']}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
 function renderBlankMap(route){
