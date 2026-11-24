@@ -99,3 +99,12 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
   .article-figure,.article-figure.figure--right,.article-figure.figure--left{width:min(86%,300px);max-width:300px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.geo-map{clear:both;margin:28px 0 34px;padding:16px 0 13px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.geo-map-heading{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.geo-map-heading span{color:var(--accent);font:600 9px/1.3 var(--sans);letter-spacing:.15em}
+.geo-map-heading strong{color:var(--ink);font:500 19px/1.3 var(--serif)}
+.geo-map iframe{display:block;width:100%;height:230px;border:0;background:#e8e5dc}
+.geo-map>a{display:inline-block;margin-top:9px;color:var(--muted);font:500 11px/1.5 var(--sans);text-decoration:none;border-bottom:1px solid var(--line)}
+.geo-map>a:hover{color:var(--accent);border-color:var(--accent)}
+@media(max-width:600px){.geo-map{margin:23px 0 28px}.geo-map iframe{height:205px}.geo-map-heading strong{font-size:18px}}
