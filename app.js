@@ -258,7 +258,7 @@ function renderBlankMap(route){
  route.points.forEach((point,index)=>{
   routeTimers.push(setTimeout(()=>{
    const group=document.createElementNS(svgNS,'g');
-   group.setAttribute('class','north-map-point is-visible');
+   group.setAttribute('class','north-map-point');
    group.setAttribute('transform','translate('+point[1]+' '+point[2]+')');
    const circle=document.createElementNS(svgNS,'circle');
    circle.setAttribute('r','7');
@@ -267,7 +267,7 @@ function renderBlankMap(route){
    label.setAttribute('x','12');label.setAttribute('y','-12');
    label.setAttribute('class','north-map-label');
    label.textContent=point[0];
-   group.append(circle,label);markers.appendChild(group);
+   group.append(circle,label);markers.appendChild(group);\n   routeTimers.push(setTimeout(()=>group.classList.add('is-visible'),30));
   },700+index*1050));
  });
  const duration=700+route.points.length*1050+350;
