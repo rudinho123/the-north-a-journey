@@ -283,7 +283,7 @@ function showRouteIntro(date,route){
  const mapNote=document.getElementById('route-map-note');
  if(mapNote) mapNote.textContent='Schematická mapa – nie je v mierke.';
  routeSteps.innerHTML='<div class="route-sequence">'+route.sequence.map((name,i)=>'<span>'+String(i+1).padStart(2,'0')+' '+name+'</span>').join('<i aria-hidden="true">→</i>')+'</div>';
- routeContinue.hidden=true;routeSkip.hidden=false;animateView(routeIntroView);
+ routeContinue.hidden=true;routeSkip.hidden=true;animateView(routeIntroView);
  renderBlankMap(route);
 }
 function openSelectedChapter(){
