@@ -316,7 +316,7 @@ function revealDays(){
  daysList.innerHTML=available.map(([date,items],i)=>{
   const chapter=items[0];
   const stopName=['Prvé zastavenie','Druhé zastavenie','Tretie zastavenie','Štvrté zastavenie'][i]||'Ďalšie zastavenie';
-  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+stopName+'</span><span class="day-date">'+chapter.dateLabel.replace(/^[^·]+·\\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
+  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+stopName+'</span><span class="day-date">'+chapter.dateLabel.replace(/^[^·]+·\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
  }).join('');
  daysList.querySelectorAll('.day-row').forEach(el=>el.addEventListener('click',()=>showDay(el.dataset.date)));
 }
