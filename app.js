@@ -239,17 +239,17 @@ function showWelcome() {
 
 const dailyRoutes = {
  '2026-11-26':{title:'Cesta na sever',subtitle:'Z Bratislavy cez Manchester až do Yorkshire.',scenes:[
-  {title:'Naprieč Európou',mode:'LETECKY',points:[{name:'Bratislava',x:755,y:310,anchor:'end'},{name:'Manchester',x:235,y:175,anchor:'start'}],legs:[{d:'M755 310 Q485 35 235 175'}]},
-  {title:'Z letiska do Yorkshire',mode:'VLAKOM',points:[{name:'Manchester',x:145,y:285,anchor:'middle'},{name:'Bradford',x:430,y:155,anchor:'middle'},{name:'Leeds',x:555,y:220,anchor:'middle'}],legs:[{d:'M145 285 Q285 215 430 155'},{d:'M430 155 Q500 145 555 220'}]}
+  {title:'Naprieč Európou',mode:'LETECKY',points:[{name:'Bratislava',lat:48.17,lng:17.21},{name:'Manchester',lat:53.35,lng:-2.27}],legs:[[0,1]],zoom:5},
+  {title:'Z letiska do Yorkshire',mode:'VLAKOM',points:[{name:'Manchester',lat:53.48,lng:-2.24},{name:'Bradford',lat:53.795,lng:-1.759},{name:'Leeds',lat:53.8008,lng:-1.5491}],legs:[[0,1],[1,2]],zoom:9}
  ],steps:[['Bratislava','Manchester','Lietadlom'],['Manchester','Bradford','Vlakom'],['Bradford','Leeds','Vlakom']]},
  '2026-11-27':{title:'Výprava na západ',subtitle:'Zo Yorkshire k rieke Mersey a späť.',scenes:[
-  {title:'Medzi Yorkshire a Merseyside',mode:'VLAKOM',points:[{name:'Leeds',x:570,y:185,anchor:'end'},{name:'Liverpool',x:165,y:260,anchor:'start'}],legs:[{d:'M570 185 Q365 65 165 260'},{d:'M165 260 Q365 420 570 185'}]}
+  {title:'Medzi Yorkshire a Merseyside',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Liverpool',lat:53.4084,lng:-2.9916}],legs:[[0,1],[1,0]],zoom:8}
  ],steps:[['Leeds','Liverpool','Vlakom'],['Liverpool','Leeds','Vlakom']]},
  '2026-11-28':{title:'Srdce Yorkshire',subtitle:'Deň medzi historickými mestami a trhovými mestečkami.',scenes:[
-  {title:'Yorkshire',mode:'VLAKOM',points:[{name:'Leeds',x:390,y:300,anchor:'end'},{name:'York',x:560,y:115,anchor:'start'},{name:'Harrogate',x:265,y:150,anchor:'end'}],legs:[{d:'M390 300 Q520 245 560 115'},{d:'M560 115 Q430 35 265 150'},{d:'M265 150 Q180 290 390 300'}]}
+  {title:'Yorkshire',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'York',lat:53.959,lng:-1.0815},{name:'Harrogate',lat:53.9921,lng:-1.541}],legs:[[0,1],[1,2],[2,0]],zoom:9}
  ],steps:[['Leeds','York','Vlakom'],['York','Harrogate','Vlakom'],['Harrogate','Leeds','Vlakom']]},
  '2026-11-29':{title:'Späť do Manchestru',subtitle:'Z Yorkshire do jedného z najznámejších futbalových miest Anglicka.',scenes:[
-  {title:'Leeds a Manchester',mode:'VLAKOM',points:[{name:'Leeds',x:570,y:185,anchor:'end'},{name:'Manchester',x:165,y:270,anchor:'start'}],legs:[{d:'M570 185 Q365 65 165 270'},{d:'M165 270 Q365 420 570 185'}]}
+  {title:'Leeds a Manchester',mode:'VLAKOM',points:[{name:'Leeds',lat:53.8008,lng:-1.5491},{name:'Manchester',lat:53.48,lng:-2.24}],legs:[[0,1],[1,0]],zoom:9}
  ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Leeds','Vlakom']]}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
