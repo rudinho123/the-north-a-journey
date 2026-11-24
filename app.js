@@ -267,7 +267,8 @@ function renderBlankMap(route){
    label.setAttribute('x','12');label.setAttribute('y','-12');
    label.setAttribute('class','north-map-label');
    label.textContent=point[0];
-   group.append(circle,label);markers.appendChild(group);\n   routeTimers.push(setTimeout(()=>group.classList.add('is-visible'),30));
+   group.append(circle,label);markers.appendChild(group);
+   routeTimers.push(setTimeout(()=>group.classList.add('is-visible'),30));
   },700+index*1050));
  });
  const duration=700+route.points.length*1050+350;
@@ -296,12 +297,12 @@ function revealDays(){
  const available=groupDays().filter(([,items])=>items.some(isUnlocked));
  if(!available.length){
   const next=groupDays().find(([,items])=>!items.some(isUnlocked));
-  const dateText=next?next[1][0].dateLabel.replace(/^[^·]+·\\s*/,''):'';
+  const dateText=next?next[1][0].dateLabel.replace(/^[^·]+·\s*/,''):'';
   daysList.innerHTML='<p class="empty-note">Ďalší deň sa otvorí '+dateText+'.</p>';return;
  }
  daysList.innerHTML=available.map(([date,items],i)=>{
   const chapter=items[0];
-  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+chapter.title+'</span><span class="day-date">'+chapter.dateLabel.replace(/^[^·]+·\\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
+  return '<button class="day-row" type="button" data-date="'+date+'"><span class="day-index">'+String(i+1).padStart(2,'0')+'</span><span class="day-meta"><span class="day-name">'+chapter.title+'</span><span class="day-date">'+chapter.dateLabel.replace(/^[^·]+·\s*/,'')+'</span></span><span class="day-arrow" aria-hidden="true">→</span></button>';
  }).join('');
  daysList.querySelectorAll('.day-row').forEach(el=>el.addEventListener('click',()=>showDay(el.dataset.date)));
 }
