@@ -208,6 +208,8 @@ const routeContinue = document.getElementById('route-continue');
 const routeSkip = document.getElementById('route-skip');
 const routeDayLabel = document.getElementById('route-day-label');
 let routeTimers = [];
+let routeMap = null;
+let routeLayer = null;
 
 const daysView = document.getElementById('days-view');
 const chaptersView = document.getElementById('chapters-view');
@@ -250,17 +252,40 @@ const dailyRoutes = {
  ],steps:[['Leeds','Manchester','Vlakom'],['Manchester','Leeds','Vlakom']]}
 };
 function clearRouteTimers(){routeTimers.forEach(clearTimeout);routeTimers=[];}
-function buildRouteScene(scene,index){
- const paths=scene.legs.map((leg,i)=>'<path class="route-line route-line-'+i+'" d="'+leg.d+'" style="animation-delay:'+(0.45+i*1.45)+'s"/>').join('');
- const markers=scene.points.map((p,i)=>'<g class="route-point route-point-'+i+'" style="animation-delay:'+(0.5+i*1.45)+'s"><circle cx="'+p.x+'" cy="'+p.y+'" r="7"/><circle class="route-point-core" cx="'+p.x+'" cy="'+p.y+'" r="2.5"/><text x="'+p.x+'" y="'+(p.y+(p.y<190?-18:28))+'" text-anchor="'+(p.anchor||'middle')+'">'+p.name+'</text></g>').join('');
- return '<div class="route-scene"><div class="route-scene-heading"><span>'+scene.mode+'</span><strong>'+scene.title+'</strong></div><svg viewBox="0 0 800 430" role="img" aria-label="'+scene.points.map(p=>p.name).join(' – ')+'"><defs><pattern id="route-grid-'+index+'" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M 34 0 L 0 0 0 34" fill="none" stroke="#dedbd2" stroke-width=".7"/></pattern></defs><rect width="800" height="430" fill="url(#route-grid-'+index+')"/><path class="route-land" d="M0 325 Q120 285 180 315 T360 290 T550 310 T800 260 L800 430 L0 430Z"/><path class="route-water" d="M0 65 Q130 100 205 80 T390 95 T600 60 T800 85"/><g class="route-paths">'+paths+'</g>'+markers+'<text class="route-north" x="760" y="38">SEVER ↑</text></svg></div>';
+function ensureRouteMap(){
+ if(!window.L)return false;
+ if(!routeMap){
+  routeMap=L.map(routeMapStage,{zoomControl:false,scrollWheelZoom:false,attributionControl:true}).setView([53.7,-1.9],7);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}).addTo(routeMap);
+  routeLayer=L.layerGroup().addTo(routeMap);
+ }
+ routeMapStage.innerHTML='';
+ return true;
 }
 function renderRouteScene(route,index){
  const scene=route.scenes[index];
- routeMapStage.innerHTML=buildRouteScene(scene,index);
+ routeMapStage.innerHTML='';
+ if(!ensureRouteMap()){
+  routeMapStage.innerHTML='<div class="route-map-fallback">Mapa sa nepodarila načítať. <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">Otvoriť OpenStreetMap</a></div>';
+  return;
+ }
+ routeMap.invalidateSize();
+ routeLayer.clearLayers();
+ const bounds=L.latLngBounds(scene.points.map(p=>[p.lat,p.lng]));
+ routeMap.flyToBounds(bounds.pad(scene.zoom===5?0.42:0.65),{duration:1.5,maxZoom:scene.zoom});
  routeSteps.innerHTML=route.steps.map((step,i)=>'<div class="route-step" style="animation-delay:'+(0.7+i*1.35)+'s"><span class="route-step-number">'+String(i+1).padStart(2,'0')+'</span><span><strong>'+step[0]+' → '+step[1]+'</strong><small>'+step[2]+'</small></span></div>').join('');
- routeMapStage.classList.remove('route-scene-transition');
- void routeMapStage.offsetWidth;
+ scene.points.forEach((p,i)=>{
+  const marker=L.circleMarker([p.lat,p.lng],{radius:6,color:'#b77a58',weight:2,fillColor:'#f3f0e8',fillOpacity:1}).bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-7],className:'route-map-label'});
+  routeLayer.addLayer(marker);
+ });
+ scene.legs.forEach((leg,i)=>{
+  routeTimers.push(setTimeout(()=>{
+   const a=scene.points[leg[0]],b=scene.points[leg[1]];
+   const line=L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:'#b77a58',weight:3,opacity:0.9,dashArray:'7 9',className:'route-map-line'}).addTo(routeLayer);
+   const el=line.getElement();
+   if(el)el.classList.add('route-map-line-active');
+  },850+i*1450));
+ });
 }
 function finishRouteIntro(){
  clearRouteTimers();routeSkip.hidden=true;routeContinue.hidden=false;
