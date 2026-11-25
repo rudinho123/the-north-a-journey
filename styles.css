@@ -199,3 +199,13 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 @media(max-width:600px){
   .route-map-only .route-continue{width:176px;min-height:50px;margin-top:10px}
 }
+
+
+/* Slightly shorten the mobile map panel so Continue sits higher. */
+@media(max-width:600px){
+  .route-map-only .route-map-stage{
+    height:min(72vh,680px);
+    min-height:390px;
+  }
+  .route-map-only .route-continue{margin-top:8px}
+}
