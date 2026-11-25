@@ -167,3 +167,35 @@ button{font:inherit}button:focus-visible{outline:2px solid var(--accent);outline
 /* Map intro refinements: visible back navigation, seamless paper background. */
 .route-intro-top{display:flex;justify-content:flex-start;align-items:center;padding:8px 0 14px;border:0}
 .route-map-only .route-map-stage{background:transparent;border:0}
+
+
+/* Continue action directly below the map: a quiet, centered white button. */
+.route-map-only .route-continue{
+  display:flex;
+  width:190px;
+  min-height:52px;
+  align-items:center;
+  justify-content:center;
+  margin:12px auto 0;
+  padding:14px 22px;
+  border:1px solid rgba(23,38,56,.08);
+  border-radius:12px;
+  background:#fff;
+  color:var(--ink);
+  box-shadow:0 2px 12px rgba(23,38,56,.055);
+  font:600 14px/1.2 var(--sans);
+  letter-spacing:.015em;
+  text-align:center;
+  transition:background .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.route-map-only .route-continue span{display:none}
+.route-map-only .route-continue:hover{
+  background:#faf9f6;
+  border-color:rgba(23,38,56,.12);
+  box-shadow:0 4px 16px rgba(23,38,56,.09);
+  transform:translateY(-1px);
+  color:var(--ink);
+}
+@media(max-width:600px){
+  .route-map-only .route-continue{width:176px;min-height:50px;margin-top:10px}
+}
