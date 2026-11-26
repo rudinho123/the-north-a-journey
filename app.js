@@ -176,7 +176,7 @@ const parts = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit'
 }).formatToParts(new Date());
 const ukDate = `${parts.find(p=>p.type==='year').value}-${parts.find(p=>p.type==='month').value}-${parts.find(p=>p.type==='day').value}`;
-const isUnlocked = chapter => Boolean(chapter && chapter.date <= ukDate);
+const isUnlocked = chapter => Boolean(chapter && (chapter.date <= ukDate || chapter.id === 'liverpool'));
 
 const welcomeView = document.getElementById('welcome-view');
 const routeIntroView = document.getElementById('route-intro-view');
