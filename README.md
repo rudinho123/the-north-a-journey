@@ -27,9 +27,15 @@ Potom otvor http://localhost:8000.
 
 Projekt používa GitHub Pages. Zmeny v hlavnej vetve `main` sa publikujú na vyššie uvedenej adrese.
 
-## Sprístupnenie kapitol
+## Postupné sprístupňovanie kapitol
 
-Všetky štyri dni a kapitoly sú dostupné ihneď; aplikácia ich nezamyká podľa dátumu.
+Kapitoly sa sprístupňujú postupne podľa dátumu v časovom pásme `Europe/London`:
+- 26. novembra: Bradford a Leeds
+- 27. novembra: Liverpool
+- 28. novembra: Manchester
+- 29. novembra: York a Yorkshire
+
+Po odomknutí zostávajú staršie kapitoly dostupné. Neskoršie dni sa pred príslušným dátumom nedajú otvoriť.
 
 ## Fotografie, mapy a pripojenie
 
