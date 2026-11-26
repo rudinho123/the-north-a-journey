@@ -25,19 +25,19 @@ Potom otvor http://localhost:8000.
 
 ## Publikovanie
 
-Projekt už používa GitHub Pages. Zmeny v hlavnej vetve `main` sa publikujú na vyššie uvedenej adrese. Nasadenie a zdrojové súbory sú v tomto repozitári.
+Projekt používa GitHub Pages. Zmeny v hlavnej vetve `main` sa publikujú na vyššie uvedenej adrese.
 
-## Denné sprístupňovanie
+## Sprístupnenie kapitol
 
-Kapitoly sa sprístupňujú podľa dátumu v časovom pásme `Europe/London` (26.–29. 11. 2026). Ide o jednoduchú klientsku kontrolu dátumu, nie o bezpečnostnú ochranu. Parameter `?preview=1` umožňuje náhľad kapitol pred ich sprístupnením.
+Všetky štyri dni a kapitoly sú dostupné ihneď; aplikácia ich nezamyká podľa dátumu.
 
-## Fotografie a mapy
+## Fotografie, mapy a pripojenie
 
-Fotografie sa načítavajú z Wikimedia Commons. Pri fotografiách sú uvedené autorské a licenčné informácie priamo v popisoch obrázkov. V kapitolách sú vložené mapy OpenStreetMap. Fotografie, vložené mapy a webové fonty vyžadujú internetové pripojenie.
+Fotografie sa načítavajú z Wikimedia Commons a ich popisy uvádzajú autorov a licencie. Úvodná schematická mapa Británie je súčasťou aplikácie. Fotografie a webové fonty vyžadujú internetové pripojenie.
 
 ## Offline režim
 
-Service worker ukladá základné súbory aplikácie (HTML, CSS, JavaScript, manifest a ikony) do cache. Po prvom úspešnom načítaní tak môže byť dostupná základná štruktúra aplikácie a texty kapitol. Externé fotografie, mapy OpenStreetMap a webové fonty sa offline nemusia zobraziť.
+Service worker ukladá základné súbory aplikácie (HTML, CSS, JavaScript, manifest a ikony) do cache. Po prvom úspešnom načítaní môže byť dostupná základná štruktúra aplikácie a texty kapitol. Externé fotografie a webové fonty sa offline nemusia zobraziť.
 
 ## Úprava obsahu
 
